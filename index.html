@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicholas Fidalgo Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">NICHOLAS FIDALGO</div>
+        <ul class="navbar-links">
+            <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="#education" class="nav-link">Education</a></li>
+            <li class="nav-item"><a href="#experience" class="nav-link">Experience</a></li>
+            <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
+            <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+            <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-heading">Harvard ECE interested in SWE, AI, and hardware.</h1>
+            <div class="buttons">
+                <a href="downloads/Nicholas Fidalgo Resume.pdf" class="btn" download="Nicholas Fidalgo Resume.pdf">DOWNLOAD CV</a>
+                <a href="#projects" class="btn">VIEW PROJECTS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education-section">
+        <h1 class="section-title">Education</h1>
+        <div class="education-card">
+            <div class="education-header">
+                <h1>Harvard University</h1>
+                <p class="education-date">August 2022 - May 2026</p>
+                <h2>M.S. Electrical Engineering</h2>
+                <h2>B.A. Electrical & Computer Engineering</h2>
+            </div>
+            <div class="education-logos">
+                <img src="images/harvard-college.png" alt="Harvard University Logo">
+                <img src="images/harvard-seas.png" alt="John A. Paulson SEAS Logo">
+            </div>
+            <div class="education-details">
+                <div class="education-column">
+                    <h3>Affiliations</h3>
+                    <p>ColorStack, Hispanic Scholarship Fund (HSF), Harvard Undergraduate Robotics Club</p>
+                </div>
+                <div class="education-column">
+                    <h3>Awards</h3>
+                    <p>HSF Youth Leadership Institute Scholar, HSF Scholar, MIT Online Science Technology and Engineering Community (MOSTEC) Alum</p>
+                </div>
+                <div class="education-column">
+                    <h3>Relevant Courses</h3>
+                    <p>Computing Hardware, Computer Vision, Signals & Communications, Data Science, Linear Algebra, Probability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section">
+        <h1 class="section-title">Experience</h1>     
+        <!-- First Experience Card -->
+        <div class="experience-card">
+            <div class="experience-header">
+                <h1>Data Science Intern</h1>
+                <p class="experience-date">August 2023 - Present | Massachusetts General Hospital | Boston, MA</p>
+            </div>
+            <div class="experience-details">
+                <ul>
+                    <li>Pre-processed multiple sclerosis patient data using PCA, standardizing, and feature engineering (Python).</li>
+                    <li>Made and cross-validated ML model to find effects of GLP-1 agonists on MS using polynomial regression.</li>
+                </ul>
+                <a href="https://rdcu.be/dOoqB" class="btn btn-primary">View Publication</a> <!-- Add this button -->
+            </div>
+            <div class="experience-logos">
+                <img src="images/hms-mgh-logo.png" alt="Harvard Medical School and Massachusetts General Hospital Logos">
+            </div>
+        </div>
+    
+        <!-- Second Experience Card -->
+        <div class="experience-card">
+            <div class="experience-header">
+                <h1>Biomedical Engineering Researcher</h1>
+                <p class="experience-date">September 2023 - Present | Harvard Ability Lab | Allston, MA</p>
+            </div>
+            <div class="experience-details">
+                <ul>
+                    <li>Fabricated and programmed motor circuit and closed loop PID control using SPI interface (C++).</li>
+                    <li>Added Bluetooth feature to existing computer vision mobile app with Unity (C#) to inform motor control.</li>
+                </ul>
+            </div>
+            <div class="experience-logos">
+                <img src="images/harvard-seas.png" alt="Harvard Logo">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <h1 class="section-title">Projects</h1>
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">HTML</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Web Development</span>
+                </div>
+                <h1 class="project-title">Portfolio</h1>
+                <p class="project-description">Built a personal portfolio website to showcase my projects, skills, and experiences. The website features a responsive design, interactive elements, smooth scrolling, and animations, all created with HTML for the structure, CSS for styling and layout, and JavaScript for interactivity and animations.</p>
+                <a href="https://github.com/fiidalgo/portfolio" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-portfolio.png" alt="Project 1 Image" class="project-image">
+        </div>
+    
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">Web App</span>
+                </div>
+                <h1 class="project-title">Assignment Tracker</h1>
+                <p class="project-description">Developed a web application using Flask to help students manage and track their assignments. The app allows users to create, update, and delete tasks, set deadlines, and mark tasks as completed. MySQL was used for the database to store assignment details, while Python powered the backend logic, including task filtering, searching, and categorization by class.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <!-- <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">AI</span>
+                    <span class="tag">Flask</span>
+                </div>
+                <h1 class="project-title">Chat Bot</h1>
+                <p class="project-description">Created an AI-powered chat bot using Python and Natural Language Processing libraries like NLTK and spaCy. The bot can answer user queries, provide information, and engage in small talk. The bot was deployed using Flask and can be integrated with messaging platforms like Slack or Discord for real-time interactions.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">SQLAlchemy</span>
+                </div>
+                <h1 class="project-title">Personal Finance Tracker</h1>
+                <p class="project-description">Designed a personal finance tracking app using Flask and SQLAlchemy for managing user data and financial transactions. Python was used to implement the core logic, including budget creation, expense categorization, and generating financial reports. Data visualization was handled using libraries like Matplotlib and Plotly to display trends and insights.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">WebSocket</span>
+                    <span class="tag">Express.js</span>
+                    <span class="tag">Real-Time</span>
+                </div>
+                <h1 class="project-title">Real-Time Chat App</h1>
+                <p class="project-description">Built a real-time chat application using Node.js and Express.js to handle server-side operations, with WebSocket technology for instant messaging between users. The frontend was developed using JavaScript and HTML/CSS, supporting features like user authentication, private messaging, and group chats.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Django</span>
+                    <span class="tag">REST API</span>
+                    <span class="tag">SQL</span>
+                </div>
+                <h1 class="project-title">Travel Booking System</h1>
+                <p class="project-description">Developed a comprehensive travel booking system using Django as the backend framework, with REST API endpoints to handle booking operations. The application includes SQL databases for managing user data, bookings, and payments, and integrates payment processing through Stripe. The frontend was developed using HTML, CSS, and JavaScript to ensure a seamless user experience.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">D3.js</span>
+                </div>
+                <h1 class="project-title">Algorithm Visualizer</h1>
+                <p class="project-description">Created an interactive algorithm visualization tool using JavaScript and D3.js to help users understand various algorithms such as sorting, searching, and graph traversal. The tool provides step-by-step animations and interactive controls, making complex algorithms easier to grasp.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+    
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Deep Learning</span>
+                    <span class="tag">Neural Networks</span>
+                    <span class="tag">NumPy</span>
+                </div>
+                <h1 class="project-title">Neural Network</h1>
+                <p class="project-description">Implemented a neural network from scratch in Python, leveraging libraries like NumPy for efficient matrix operations. The network was trained on a dataset to perform tasks like classification or regression, with features such as backpropagation, activation functions, and optimization techniques like gradient descent.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">HTTP</span>
+                    <span class="tag">Networks</span>
+                    <span class="tag">Server</span>
+                    <span class="tag">Socket</span>
+                </div>
+                <h1 class="project-title">HTTP Server</h1>
+                <p class="project-description">Built a basic HTTP server from the ground up using Python and its Socket library. The server was capable of handling GET and POST requests, serving static files, and managing simple routing for dynamic content. It also included basic logging and error handling mechanisms.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div>
+        
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">WebSocket</span>
+                    <span class="tag">Real-Time</span>
+                </div>
+                <h1 class="project-title">Real-Time Editor</h1>
+                <p class="project-description">Developed a collaborative real-time text editor using Node.js and WebSocket for real-time synchronization between users. The frontend, built with HTML, CSS, and JavaScript, supports basic text formatting, and the backend ensures smooth conflict resolution and data persistence.</p>
+                <a href="https://github.com/fiidalgo/assignment-tracker" class="project-link">View on GitHub</a>
+            </div>
+            <img src="images/project-assignment-tracker.png" alt="Project 2 Image" class="project-image">
+        </div> -->
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <h1 class="section-title">Skills</h1>
+        <div class="skills-container">
+            <!-- Add tags from your projects here -->
+            <span class="skill-tag" data-skill="HTML">HTML</span>
+            <span class="skill-tag" data-skill="CSS">CSS</span>
+            <span class="skill-tag" data-skill="JavaScript">JavaScript</span>
+            <span class="skill-tag" data-skill="Python">Python</span>
+            <span class="skill-tag" data-skill="Flask">Flask</span>
+            <span class="skill-tag" data-skill="MySQL">MySQL</span>
+            <span class="skill-tag" data-skill="Node.js">Node.js</span>
+            <span class="skill-tag" data-skill="WebSocket">WebSocket</span>
+            <span class="skill-tag" data-skill="Django">Django</span>
+            <span class="skill-tag" data-skill="REST API">REST API</span>
+            <span class="skill-tag" data-skill="Real-Time">Real-Time</span>
+            <span class="skill-tag" data-skill="Socket">Socket</span>
+            <span class="skill-tag" data-skill="Server">Server</span>
+            <span class="skill-tag" data-skill="Networks">Networks</span>
+            <span class="skill-tag" data-skill="HTTP">HTTP</span>
+            <span class="skill-tag" data-skill="NumPy">NumPy</span>
+            <span class="skill-tag" data-skill="Neural Networks">Neural Networks</span>
+            <span class="skill-tag" data-skill="Machine Learning">Machine Learning</span>
+            <span class="skill-tag" data-skill="Deep Learning">Deep Learning</span>
+            <span class="skill-tag" data-skill="D3.js">D3.js</span>
+            <span class="skill-tag" data-skill="SQL">SQL</span>
+            <span class="skill-tag" data-skill="Express.js">Express.js</span>
+            <span class="skill-tag" data-skill="AI">AI</span>
+            <span class="skill-tag" data-skill="NLP">NLP</span>
+            <span class="skill-tag" data-skill="Flask">Flask</span>
+            <span class="skill-tag" data-skill="SQLAlchemy">SQLAlchemy</span>
+            <span class="skill-tag" data-skill="Web Development">Web Development</span>
+            <!-- Add other tags as needed -->
+        </div>
+    </section>
+
+    <!-- Filtered Projects Section -->
+    <section class="filtered-projects-section">
+        <div class="filtered-projects-container">
+            <!-- Filtered projects will be inserted here dynamically -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h1 class="section-title">Contact</h1>
+        <div class="contact-container">
+            <form action="mailto:nicom.fidalgo@gmail.com" method="POST" enctype="text/plain" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>Email: nicom.fidalgo@gmail.com</li>
+                    <li>Phone: (479) 531-3651</li>
+                    <li>Address: 95 Dunster St., Cambridge, MA, 02138</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Social</h3>
+                <ul>
+                    <li><a href="https://www.linkedin.com/in/nicholas-fidalgo-887ba5209/">LinkedIn</a></li>
+                    <li><a href="https://github.com/fiidalgo">GitHub</a></li>
+                    <li><a href="https://www.instagram.com/fiidalgo">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Projects</h3>
+                <ul>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Assignment Tracker</a></li>
+                    <li><a href="#">Chat Bot</a></li>
+                    <li><a href="#">Personal Finance Tracker</a></li>
+                    <li><a href="#">Real-Time Chat App</a></li>
+                    <li><a href="#">Travel Booking System</a></li>
+                    <li><a href="#">Algorithm Visualizer</a></li>
+                    <li><a href="#">Neural Network</a></li>
+                    <li><a href="#">HTTP Server</a></li>
+                    <li><a href="#">Real-Time Editor</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
