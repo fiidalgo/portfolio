@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import { Markdown } from 'astro/components';
+
+const items = [
+  {
+    title: 'Chapter 1: Introduction',
+    href: '/notes/chapter-1',
+    open: true,
+    children: [
+      { title: 'Overview', href: '/notes/chapter-1' },
+      { title: 'Background', href: '/notes/chapter-1/background' },
+    ],
+  },
+  {
+    title: 'Chapter 2: Algebra',
+    href: '/notes/chapter-2',
+    children: [
+      { title: 'Groups', href: '/notes/chapter-2/groups' },
+    ],
+  },
+];
+
+const content = `# Chapter ${Astro.params.chapter.replace(/-/g, ' ')}
+
+Here is some introductory text.
+
+Inline math example: $E = mc^2$.
+
+Block math example:
+
+$$
+\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}
+$$
+
+~~~js
+// Code block example
+function hello() {
+  console.log('Hello, world!');
+}
+~~~
+`;
+---
+
+<BaseLayout title={`Notes: ${Astro.params.chapter.replace(/-/g, ' ')}`}>
+  <div class="notes-container">
+    <Sidebar {items} />
+    <main class="notes-content">
+      <Markdown>{content}</Markdown>
+    </main>
+  </div>
+</BaseLayout>

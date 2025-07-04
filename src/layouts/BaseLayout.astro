@@ -1,0 +1,30 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{Astro.props.title ?? 'My Site'}</title>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <a href="/" class="site-title">Andre Amor</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/notes">Notes</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+  </body>
+</html>
