@@ -33,6 +33,10 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .site-title {
