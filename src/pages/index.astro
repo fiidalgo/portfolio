@@ -3,10 +3,139 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Andre Amor">
-  <section class="hero">
-    <h1>Nice to meet you, my name is</h1>
-    <h2>Andre Amor</h2>
-    <h3>Software Engineer & Quantitative Researcher</h3>
-    <p>University of Maryland – Class of 2026</p>
+  <section id="hero" class="hero">
+    <h2>Nice to meet you, my name is</h2>
+    <h1>Andre Amor</h1>
+  </section>
+
+  <section id="about" class="about">
+    <img
+      src="/images/andreamor.png"
+      alt="Andre Amor"
+      class="profile-pic"
+    />
+    <div class="about-info">
+      <h1>About Me</h1>
+      <p>
+        My name is Andre Amor (full name Rodz Andrie Amor). I am a student at the
+        <strong>University of Maryland</strong> studying <strong>Computer Science</strong>
+        and <strong>Applied Mathematics</strong>. I also minor in <strong>Computational Finance</strong>.
+      </p>
+      <p>
+        I am currently studying to become a more skilled software engineer and mathematician.
+      </p>
+      <p>
+        Feel free to contact me if you want to collaborate on any projects, ventures, or just want to chat!
+      </p>
+      <p>
+        <a href="mailto:ramorSTEM2022@gmail.com">Email Me!</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="experience" class="experience">
+    <h2>Experience</h2>
+    <div class="experience-item">
+      <div class="experience-header">
+        <img src="/images/Netflix_2015_N_logo.png" alt="Netflix logo" class="experience-logo" />
+        <div class="heading-text">
+          <div class="company-name-date">
+            <h3>Netflix</h3>
+            <i>Los Gatos, CA</i>
+          </div>
+          <div class="role-date">
+            <span class="role">Software Engineering Intern</span>
+            <i class="date">May 2025-August 2025</i>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>Engineering a Metadata Caching Service for the Storage Platform team under Cloud Infrastructure Engineering (CIE), utilizing Spring Boot with AWS S3, DynamoDB, and Caffeine, a high performance in-memory Java caching library.</li>
+        <li>Developing an application that serves REST, GraphQL, and gRPC endpoints receiving over 1,000,000 requests/hour.</li>
+        <li>Achieving &lt;1 ms read retrieval latency using 2 caching layers to cache several 100s of GBs of S3 metadata objects.</li>
+      </ul>
+    </div>
+
+    <div class="experience-item">
+      <div class="experience-header">
+        <img src="/images/Microsoft_logo.png" alt="Microsoft logo" class="experience-logo" />
+        <div class="heading-text">
+          <div class="company-name-date">
+            <h3>Microsoft</h3>
+            <i>Redmond, WA</i>
+          </div>
+          <div class="role-date">
+            <span class="role">Software Engineering Intern</span>
+            <i class="date">May 2024-August 2024</i>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>Worked with the Cloud Engineering Scale Team to develop a robust traffic manager, performing load balancing and distributing traffic across multiple cloud datacenter regions.</li>
+        <li>Utilized Azure OpenAI Studio to deploy fine-tuned GPT-4o model and managed the endpoints with PromptFlow.</li>
+        <li>Achieved SLA goals of 99.99% reliability and sub-10-minute processing with a load test of 350 IcMs/second.</li>
+      </ul>
+    </div>
+
+    <div class="experience-item">
+      <div class="experience-header">
+        <img src="/images/University_of_Maryland_seal.png" alt="University of Maryland logo" class="experience-logo" />
+        <div class="heading-text">
+          <div class="company-name-date">
+            <h3>University of Maryland</h3>
+            <i>College Park, MD</i>
+          </div>
+          <div class="role-date">
+            <span class="role">Software Engineer</span>
+            <i class="date">December 2022-January 2025</i>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>Implemented full-stack web applications with .NET Web Forms and .NET Core, utilizing MySQL database.</li>
+        <li>Performed stress testing to evaluate app resilience and error handling with 10,000 concurrent requests.</li>
+        <li>Led the migration from legacy PHP system code to modern libraries, reducing code complexity and technical debt.</li>
+      </ul>
+    </div>
+
+    <div class="experience-item">
+      <div class="experience-header">
+        <img src="/images/University_of_Maryland_seal.png" alt="University of Maryland logo" class="experience-logo" />
+        <div class="heading-text">
+          <div class="company-name-date">
+            <h3>University of Maryland</h3>
+            <i>College Park, MD</i>
+          </div>
+          <div class="role-date">
+            <span class="role">Undergraduate Teaching Assistant</span>
+            <i class="date">September 2023-December 2023</i>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>Teaching assistant for 100+ students with Professor Teli in DATA120: Python Programming for Data Science.</li>
+        <li>Responsible for grading student assignments, holding office hours and review sessions, and proctoring exams.</li>
+      </ul>
+    </div>
+
+    <div class="experience-item">
+      <div class="experience-header">
+        <img src="/images/ninjas.png" alt="Code Ninjas logo" class="experience-logo" />
+        <div class="heading-text">
+          <div class="company-name-date">
+            <h3>Code Ninjas</h3>
+            <i>Edgewater, MD</i>
+          </div>
+          <div class="role-date">
+            <span class="role">Programming Tutor</span>
+            <i class="date">March 2021-September 2021</i>
+          </div>
+        </div>
+      </div>
+      <ul>
+        <li>Mentored software development with programming languages in JavaScript, Lua, and Python.</li>
+        <li>Directed and led summer courses on Lua game development and Python programming.</li>
+      </ul>
+    </div>
   </section>
 </BaseLayout>
