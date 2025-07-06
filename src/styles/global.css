@@ -250,3 +250,62 @@ details[open] summary {
   height: 1.5rem;
   flex-shrink: 0;
 }
+/* Socials section brand colors */
+.socials-list li.github a {
+  color: #181717;
+}
+.socials-list li.linkedin a {
+  color: #0A66C2;
+}
+.socials-list li.instagram a {
+  color: #E1306C;
+}
+
+/* Skills section on home page */
+.skills {
+  padding: 2rem 0;
+  text-align: center;
+}
+.skills h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.skills-column {
+  flex: 1;
+  min-width: 200px;
+}
+.skills-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+.skills-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.skills-list li img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}
+.skills-list li:hover img {
+  transform: scale(1.1);
+}
+.skills-list li span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}

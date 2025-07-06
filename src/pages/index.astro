@@ -8,6 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1>Andre Amor</h1>
   </section>
 
+
   <section id="about" class="about">
     <img
       src="/images/andreamor.png"
@@ -36,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section id="socials" class="socials">
     <h2>Socials</h2>
     <ul class="socials-list">
-      <li>
+      <li class="github">
         <a href="https://github.com/rodzAmor/" target="_blank" rel="noopener noreferrer">
           <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <title>GitHub</title>
@@ -45,7 +46,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span>GitHub</span>
         </a>
       </li>
-      <li>
+      <li class="linkedin">
         <a href="https://www.linkedin.com/in/rodzamor/" target="_blank" rel="noopener noreferrer">
           <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <title>LinkedIn</title>
@@ -54,7 +55,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span>LinkedIn</span>
         </a>
       </li>
-      <li>
+      <li class="instagram">
         <a href="https://www.instagram.com/andrie.amor/" target="_blank" rel="noopener noreferrer">
           <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <title>Instagram</title>
@@ -64,6 +65,66 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
       </li>
     </ul>
+  </section>
+
+  <section id="skills" class="skills">
+    <h2>Languages &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="skills-column">
+        <h3>Languages</h3>
+        <ul class="skills-list languages-list">
+          <li>
+            <img src="/images/languages/cpp.png" alt="C++ logo" />
+            <span>C++</span>
+          </li>
+          <li>
+            <img src="/images/languages/csharp.png" alt="C# logo" />
+            <span>C#</span>
+          </li>
+          <li>
+            <img src="/images/languages/java.png" alt="Java logo" />
+            <span>Java</span>
+          </li>
+          <li>
+            <img src="/images/languages/python.png" alt="Python logo" />
+            <span>Python</span>
+          </li>
+          <li>
+            <img src="/images/languages/rust.png" alt="Rust logo" />
+            <span>Rust</span>
+          </li>
+        </ul>
+      </div>
+      <div class="skills-column">
+        <h3>Technologies</h3>
+        <ul class="skills-list technologies-list">
+          <li>
+            <img src="/images/technologies/aws.png" alt="AWS logo" />
+            <span>AWS</span>
+          </li>
+          <li>
+            <img src="/images/technologies/azure.png" alt="Azure logo" />
+            <span>Azure</span>
+          </li>
+          <li>
+            <img src="/images/technologies/docker.png" alt="Docker logo" />
+            <span>Docker</span>
+          </li>
+          <li>
+            <img src="/images/technologies/neovim.png" alt="Neovim logo" />
+            <span>Neovim</span>
+          </li>
+          <li>
+            <img src="/images/technologies/numpy.png" alt="NumPy logo" />
+            <span>NumPy</span>
+          </li>
+          <li>
+            <img src="/images/technologies/react.png" alt="React logo" />
+            <span>React</span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section id="experience" class="experience">
