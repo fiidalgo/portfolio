@@ -175,17 +175,15 @@ details[open] summary {
 
 .experience-item {
   border-bottom: 1px solid var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0.5rem 1rem;
   padding-bottom: 0.5rem;
 }
 
 /* Experience item logo and header */
 .experience-header {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  display: contents;
 }
 
 .experience-logo {
@@ -194,10 +192,13 @@ details[open] summary {
   object-fit: contain;
   border: 1px solid var(--shadow);
   border-radius: 5px;
+  grid-column: 1;
+  justify-self: center;
+  align-self: center;
 }
 
 .experience-item .heading-text {
-  flex: auto;
+  grid-column: 2;
 }
 
 .experience-item .company-name-date {
@@ -224,6 +225,22 @@ details[open] summary {
 }
  .role-date .date {
   font-style: italic;
+}
+
+/* Layout adjustments for experience timeline and text spacing */
+.experience-item ul {
+  grid-column: 2;
+  margin: 0;
+  padding-inline-start: 1.5rem;
+}
+.experience-item .company-name-date h3 {
+  margin: 0 0 0.25rem;
+}
+.role {
+  font-style: italic;
+}
+.company-name-date i {
+  font-style: normal;
 }
 
 /* Socials section on home page */
