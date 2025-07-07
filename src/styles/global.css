@@ -31,7 +31,8 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #fff;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -40,8 +41,8 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: none;
-  margin: 0;
+  max-width: 850px;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -71,7 +72,7 @@ a:hover {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 850px;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -258,6 +259,7 @@ details[open] summary {
   gap: 1rem;
   justify-content: center;
   padding: 0;
+  margin-bottom: 0;
 }
 .socials-list li a {
   display: inline-flex;
