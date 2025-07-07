@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "astro": "^5.10.2"
+  },
+  "devDependencies": {
+    "@astrojs/language-server": "^2.15.4"
   }
 }
