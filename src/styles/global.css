@@ -448,3 +448,9 @@ details[open] summary {
     text-align: center;
   }
 }
+
+/* 404 Not Found page */
+.not-found {
+  text-align: center;
+  margin-top: 4rem;
+}
