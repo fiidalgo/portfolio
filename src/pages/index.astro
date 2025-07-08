@@ -19,7 +19,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </p>
     </div>
     <div class="about-skills">
-      <ul class="skills-list languages-list">
+      <div class="skills-group">
+        <h3>Languages</h3>
+        <ul class="skills-list languages-list">
         <li>
           <img src="/images/languages/cpp.png" alt="C++ logo" />
           <span>C++</span>
@@ -44,8 +46,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <img src="/images/languages/typescript.png" alt="TypeScript logo" />
           <span>TypeScript</span>
         </li>
-      </ul>
-      <ul class="skills-list technologies-list">
+        </ul>
+      </div>
+      <div class="skills-group">
+        <h3>Technologies</h3>
+        <ul class="skills-list technologies-list">
         <li>
           <img src="/images/technologies/aws.png" alt="AWS logo" />
           <span>AWS</span>
@@ -94,7 +99,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <img src="/images/technologies/springboot.png" alt="Spring Boot logo" />
           <span>Spring Boot</span>
         </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   </section>
 
