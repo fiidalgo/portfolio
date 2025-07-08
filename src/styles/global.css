@@ -348,10 +348,16 @@ details[open] summary {
 }
 /** Subsection headers for languages and technologies **/
 .about-skills h3 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   margin: 0 0 0.5rem;
   padding-bottom: 0.25rem;
   text-align: center;
+}
+/* Align languages & technologies labels under the About section on wide screens */
+@media (min-width: 769px) {
+  .about-skills h3 {
+    margin-top: 1.1em;
+  }
 }
 .skills-list.languages-list {
   display: grid;
