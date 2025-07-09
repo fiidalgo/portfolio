@@ -1,56 +1,37 @@
-# Astro Starter Kit: Minimal
+# Andre Amor Personal Website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+This repository contains the source code for Andre Amor's personal website built with [Astro](https://astro.build). The site showcases professional experience, provides an overview of technical skills, and hosts a collection of math notes rendered with KaTeX.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Project Overview
+- **Home/Resume**: `/src/pages/index.astro` contains details about education, work experience, skills, and social links.
+- **Math Notes**: Markdown files under `/src/pages/notes/` use `NoteLayout.astro` to automatically render math using KaTeX and provide sidebar navigation.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
 /
-├── public/
+├── public/                 Static assets and images
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/         Reusable UI components
+│   ├── layouts/            BaseLayout and NoteLayout templates
+│   ├── pages/              Site pages and math notes
+│   └── styles/             Global CSS
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Run the following from the project root:
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command        | Action                                                |
+| :------------- | :---------------------------------------------------- |
+| `npm install`  | Install dependencies                                  |
+| `npm run dev`  | Start the dev server at `localhost:4321`              |
+| `npm run build`| Build the production site to `./dist/`                |
+| `npm run preview`| Preview the build locally                            |
+| `npm run astro ...` | Run additional Astro CLI commands                |
 
 ## Math Notes Workflow
-
-Math notes are written in Markdown with LaTeX syntax. Each notes page uses
-`NoteLayout.astro` which automatically renders math via KaTeX and provides a
-left sidebar for navigation.
 
 1. Run `npm install` once to install dependencies.
 2. Start the dev server with `npm run dev`.
@@ -65,7 +46,5 @@ left sidebar for navigation.
    ---
    ```
 
-Each Markdown heading automatically receives an id derived from its text. Use
-that id in your `sidebarItems` to create navigation links. Write LaTeX
-expressions inside `$...$` or `$$...$$` and they will be rendered automatically
-when the site is built or served.
+Each Markdown heading receives an id derived from its text. Use that id in your `sidebarItems` to create navigation links. Write LaTeX expressions inside `$...$` or `$$...$$` and they will be rendered automatically when the site is built or served.
+
