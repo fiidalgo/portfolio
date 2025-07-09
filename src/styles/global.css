@@ -246,7 +246,7 @@ details[open] summary {
 
 /* Socials section on home page */
 .socials {
-  padding: 1rem 0;
+  padding: 1rem 0 0 0;
   text-align: center;
 }
 .socials h2 {
@@ -475,7 +475,7 @@ details[open] summary {
 .topic-card h2 {
   margin: 0;
   font-size: 1.25rem;
-  color: #0070f3;
+  color: #111;
 }
 
 /* Breadcrumb navigation */
@@ -498,3 +498,8 @@ details[open] summary {
   text-align: center;
   margin-top: 4rem;
 }
+
+#education {
+    padding-bottom: 2rem;
+}
+
