@@ -1,0 +1,158 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsfonts, amsthm, graphicx, geometry, lipsum}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=red,
+    pdftitle={Andrie's Abstract Algebra Notes},
+    }
+\usepackage{fancyvrb}
+\usepackage{fancyhdr, lastpage}
+\pagestyle{fancy}
+\lhead{Andrie's Abstract Algebra Notes}
+% \rhead{Top right}
+\rhead{}
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+% Better spacing for the quantifiers
+\let\oldforall\forall
+\renewcommand{\forall}{\oldforall \, }
+\let\oldexist\exists
+\renewcommand{\exists}{\oldexist \: }
+\newcommand\existu{\oldexist! \: }
+\newcommand{\st}{\quad \mathrm{s.t.} \quad}
+\newcommand{\inv}{^{-1}}
+
+\usepackage{etoolbox} %Use carefully!
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+\usepackage[Glenn]{fncychap}
+
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+
+\newtcbtheorem{theo}%
+  {Theorem}{}{theorem}
+  
+\usepackage{siunitx}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[acronym]{glossaries-extra}
+\setabbreviationstyle[acronym]{long-short}
+\makeglossaries
+
+\begin{document}
+
+\tableofcontents
+
+\chapter{Groups}
+\section{Introduction to Groups}
+
+\begin{tcolorbox}[title=Binary Operation]
+  Let $G$ be a set. A binary operation on $G$ is a function that 
+  assigns an ordered pair of $G$ to an element of $G$.
+
+  The binary operation \textbf{must} be \textbf{closed}.
+
+  Assigns each ordered pair on $G$ to an element of $G$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Group]
+A group is a set with a binary operation that satisfies the following properties
+
+  \begin{enumerate}
+    \item \em{Associativity}
+    \[ (a * b) * c = a * (b * c) \quad \forall a, b, c \in G \]
+    \item \em{Identity}
+    \[ \exists e \st ae = ea = a \quad \forall a \in G \]
+    \item \em{Inverse}
+    \[ \forall a \in G, \exists b \in G \st ab = ba = e\]
+  \end{enumerate}
+\end{tcolorbox}
+
+A group is called \textit{abelian} if it is commutatitve.
+
+\begin{center}
+  \includegraphics[scale=0.3]{images/groupexamples.png}
+\end{center}
+
+\section{Properties of Groups}
+
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Identity}{theorem}
+In a group $G$, there exsits \textbf{one unique} identity element.
+\end{theo}
+
+\begin{proof}
+  Suppose $e$ and $e'$ are identities of $G$. Then
+  \begin{enumerate}
+    \item $ae = a, \quad \forall a \in G$
+    \item $ae' = a, \quad \forall a \in G$
+  \end{enumerate}
+  Using this, observe
+  \[ ae = ae' \]
+  \[ a^{-1}ae = a^{-1}ae' \]
+  \[ e = e' \]
+  Thus $e = e'$
+\end{proof}
+
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Cancellation Law}{theorem}
+In a group $G$, left and right cancellation law holds.
+\end{theo}
+
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Inverse}{theorem}
+\[ \forall a \in G, \existu b \in G \st ab = ba = e\]
+\end{theo}
+
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Shoe-Socks Property}{theorem}
+  \[ \forall a, b \in G, (ab)\inv = b\inv a\inv \]
+\end{theo}
+
+\section{Finite Groups; Subgroups}
+\begin{tcolorbox}[title=Definition]
+  \begin{itemize}
+    \item Order of a Group
+    
+    The number of elements in a group is called the \textbf{order}. Denoted as $|G|$.
+
+    \item Order of an Element
+    
+    The \textbf{order} of an element is the smallest positive integer $n$ such that $a^n = e$.
+
+    If no such integer exists, we say the element has infinite order.
+
+    {\color{red} This should not be confused with the order of a group.}
+    
+    \item Subgroup
+    
+    If a subset $H$ of a group $G$ is itself a group under the same operation of $G$,
+    we say that $H$ is a \textbf{subgroup} of $G$.
+  \end{itemize}
+\end{tcolorbox}
+There are methods to check if $H$ is a valid subgroup of $G$. You don't need to check that it
+satisfies all of the axioms. Some methods to check are below
+
+\begin{tcolorbox}[title=Subgroup Test]
+  \begin{enumerate}
+    \item \textbf{One-Step Subgroup Test}
+    
+    If $ab\inv$ is in $H$ whenever $a$ and $b$ are in $H$, then $H$ is a subgroup of $G$.
+    
+    \item \textbf{Two-Step Subgroup Test }
+    
+    If $ab$ is in $H$ whenever $a$ and $b$ are in $H$, and $a\inv$ is in $H$ whenever $a$ is in $H$, then $H$ is a subgroup of $G$.
+
+    \item \textbf{Finite Subgroup Test}
+    
+    Let $H$ be a nonempty finite subset of a group $G$. If $H$ is closed under the operation of $G$,
+    then $H$ is a subgroup of $G$.
+
+  \end{enumerate}
+  
+\end{tcolorbox}
+
+
+\end{document}
