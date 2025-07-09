@@ -114,6 +114,25 @@ a:hover {
   padding-right: 1rem;
   border-right: 1px solid #e5e5e5;
 }
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.sidebar li {
+  margin: 0.25rem 0;
+}
+.sidebar a {
+  color: #333;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  text-decoration: underline;
+}
+.sidebar a.active {
+  font-weight: bold;
+  color: #0070f3;
+}
 
 .notes-content {
   max-width: 720px;

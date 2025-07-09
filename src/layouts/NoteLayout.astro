@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+const { title, sidebarItems } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <div class="notes-container">
+    <Sidebar items={sidebarItems} />
+    <div class="notes-content">
+      <slot />
+    </div>
+  </div>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const headings = document.querySelectorAll('.notes-content h2[id]');
+      const links = document.querySelectorAll('.sidebar a');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute('id');
+          if (entry.isIntersecting) {
+            links.forEach((link) => {
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      headings.forEach((h) => observer.observe(h));
+    });
+  </script>
+</BaseLayout>

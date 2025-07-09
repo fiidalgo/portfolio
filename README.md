@@ -45,3 +45,25 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Math Notes Workflow
+
+Math notes are written in Markdown with LaTeX syntax. Each notes page uses
+`NoteLayout.astro` which automatically renders math via KaTeX and provides a
+left sidebar for navigation.
+
+1. Run `npm install` once to install dependencies.
+2. Start the dev server with `npm run dev`.
+3. Create Markdown files under `src/pages/notes/` with frontmatter similar to:
+
+   ```markdown
+   ---
+   title: "My Topic"
+   layout: ../../layouts/NoteLayout.astro
+   sidebarItems:
+     - { title: "Section 1", href: "#sec1" }
+   ---
+   ```
+
+Write LaTeX expressions inside `$...$` or `$$...$$` and they will be rendered
+automatically when the site is built or served.
