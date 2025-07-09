@@ -20,3 +20,4 @@ $|f(x)-f(x_0)|<\varepsilon$.
 ## Differentiation
 The derivative of $f$ at $x_0$ is defined by
 \[f'(x_0) = \lim_{h \to 0} \frac{f(x_0+h)-f(x_0)}{h}.\]
+
