@@ -1,7 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
-const { title, sidebarItems } = Astro.props;
+const { frontmatter } = Astro.props;
+const { title, sidebarItems = [] } = frontmatter ?? {};
 ---
 
 <BaseLayout title={title}>

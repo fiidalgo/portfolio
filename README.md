@@ -65,5 +65,7 @@ left sidebar for navigation.
    ---
    ```
 
-Write LaTeX expressions inside `$...$` or `$$...$$` and they will be rendered
-automatically when the site is built or served.
+Each Markdown heading automatically receives an id derived from its text. Use
+that id in your `sidebarItems` to create navigation links. Write LaTeX
+expressions inside `$...$` or `$$...$$` and they will be rendered automatically
+when the site is built or served.
