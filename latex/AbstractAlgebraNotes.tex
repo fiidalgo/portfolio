@@ -1,214 +1,108 @@
-\documentclass{report}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath, amsfonts, amsthm, graphicx, geometry, lipsum}
+\documentclass[a4paper,11pt]{book}
+% Setting up the document with packages typical for mathematical texts
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{fancyhdr}
 \usepackage{hyperref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=red,
-    pdftitle={Andrie's Abstract Algebra Notes},
-    }
-\usepackage{fancyvrb}
-\usepackage{fancyhdr, lastpage}
+\usepackage{tocloft}
+\usepackage{enumitem}
+
+% Configuring fonts (using Latin Modern for compatibility)
+\usepackage{lmodern}
+
+% Defining custom theorem styles and environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+% Custom macros for algebraic notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\Img}{\mathrm{Im}}
+\newcommand{\id}{\mathrm{id}}
+
+% Setting up header and footer
 \pagestyle{fancy}
-\lhead{Andrie's Abstract Algebra Notes}
-% \rhead{Top right}
-\rhead{}
-\cfoot{Page \thepage\ of \pageref{LastPage}}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
 
-% Better spacing for the quantifiers
-\let\oldforall\forall
-\renewcommand{\forall}{\oldforall \, }
-\let\oldexist\exists
-\renewcommand{\exists}{\oldexist \: }
-\newcommand\existu{\oldexist! \: }
-\newcommand{\st}{\quad \mathrm{s.t.} \quad}
-\newcommand{\inv}{^{-1}}
-
-\usepackage{etoolbox} %Use carefully!
-\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
-
-\usepackage[Glenn]{fncychap}
-
-\usepackage{xcolor}
-\usepackage{tikz}
-\usepackage[most]{tcolorbox}
-
-% Define theorem environments with tcolorbox
-\newtcbtheorem{theo}%
-  {Theorem}{colback=red!5!white,colframe=red!50!black,separator sign colon}{theorem}
-
-% Define definition environment
-\newtcolorbox{definition}[1][]{
-  title={Definition},
-  colback=blue!5!white,
-  colframe=blue!50!black,
-  #1
-}
-
-% Define example environment
-\newtcolorbox{example}[1][]{
-  title={Example},
-  colback=green!5!white,
-  colframe=green!50!black,
-  #1
-}
-
-% Define note environment
-\newtcolorbox{note}[1][]{
-  title={Note},
-  colback=yellow!5!white,
-  colframe=yellow!50!black,
-  #1
-}
-
-% Define property environment
-\newtcolorbox{property}[1][]{
-  title={Property},
-  colback=purple!5!white,
-  colframe=purple!50!black,
-  #1
-}
-
-% Define methods environment for tests/procedures
-\newtcolorbox{methods}[1][]{
-  title={Methods},
-  colback=orange!5!white,
-  colframe=orange!50!black,
-  #1
-}
-
-\usepackage{siunitx}
-\usepackage{setspace}
-\onehalfspacing
-
-\usepackage[acronym]{glossaries-extra}
-\setabbreviationstyle[acronym]{long-short}
-\makeglossaries
+% Configuring table of contents
+\setlength{\cftchapindent}{0em}
+\setlength{\cftsecindent}{2em}
+\setlength{\cftsubsecindent}{4em}
 
 \begin{document}
 
-\tableofcontents
-
+% Starting main content
 \chapter{Groups}
+
 \section{Introduction to Groups}
 
-\begin{definition}[title={Binary Operation}]
-Let $G$ be a set. A binary operation on $G$ is a function that 
-assigns an ordered pair of $G$ to an element of $G$.
-
-The binary operation \textbf{must} be \textbf{closed}.
-
-Assigns each ordered pair on $G$ to an element of $G$.
-\end{definition}
-
-\begin{definition}[title={Group}]
-A group is a set with a binary operation that satisfies the following properties:
-
-\begin{enumerate}
-  \item \textbf{Associativity}
-  \[ (a * b) * c = a * (b * c) \quad \forall a, b, c \in G \]
-  \item \textbf{Identity}
-  \[ \exists e \st ae = ea = a \quad \forall a \in G \]
-  \item \textbf{Inverse}
-  \[ \forall a \in G, \exists b \in G \st ab = ba = e\]
+\begin{definition}
+A \emph{group} is a set $G$ equipped with a binary operation $\cdot : G \times G \to G$ satisfying the following properties:
+\begin{enumerate}[label=(\roman*)]
+    \item \emph{Associativity}: For all $a, b, c \in G$, $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
+    \item \emph{Identity}: There exists an element $e \in G$ such that for all $a \in G$, $e \cdot a = a \cdot e = a$.
+    \item \emph{Inverses}: For each $a \in G$, there exists $b \in G$ such that $a \cdot b = b \cdot a = e$.
 \end{enumerate}
+If the operation is commutative (i.e., $a \cdot b = b \cdot a$ for all $a, b \in G$), the group is called \emph{abelian}.
 \end{definition}
 
-\begin{note}
-A group is called \textit{abelian} if it is commutative.
-\end{note}
+\begin{example}
+The set of integers $\Z$ under addition forms an abelian group, with identity element $0$ and inverse $-a$ for each $a \in \Z$.
+\end{example}
 
-\section{Properties of Groups}
-
-\begin{theo}[separator sign colon]{Unique Identity}{unique-identity}
-In a group $G$, there exists \textbf{one unique} identity element.
-\end{theo}
-
+\begin{theorem}
+Let $G$ be a group. The identity element $e \in G$ is unique.
+\end{theorem}
 \begin{proof}
-Suppose $e$ and $e'$ are identities of $G$. Then
-\begin{enumerate}
-  \item $ae = a, \quad \forall a \in G$
-  \item $ae' = a, \quad \forall a \in G$
-\end{enumerate}
-Using this, observe
-\[ ae = ae' \]
-\[ a^{-1}ae = a^{-1}ae' \]
-\[ e = e' \]
-Thus $e = e'$.
+Suppose $e$ and $e'$ are both identity elements. Then, for any $a \in G$, we have $a \cdot e = a$ and $e' \cdot a = a$. Consider $e \cdot e'$. Since $e$ is an identity, $e \cdot e' = e'$. Since $e'$ is an identity, $e \cdot e' = e$. Thus, $e = e'$.
 \end{proof}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Cancellation Law}{cancellation-law}
-In a group $G$, left and right cancellation law holds.
-\end{theo}
+\section{Rings}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Inverse}{unique-inverse}
-\[ \forall a \in G, \existu b \in G \st ab = ba = e\]
-\end{theo}
-
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Shoe-Socks Property}{shoe-socks}
-\[ \forall a, b \in G, (ab)\inv = b\inv a\inv \]
-\end{theo}
-
-\section{Finite Groups; Subgroups}
-
-\begin{definition}[title={Group and Element Orders}]
-\begin{itemize}
-  \item \textbf{Order of a Group}
-  
-  The number of elements in a group is called the \textbf{order}. Denoted as $|G|$.
-
-  \item \textbf{Order of an Element}
-  
-  The \textbf{order} of an element is the smallest positive integer $n$ such that $a^n = e$.
-
-  If no such integer exists, we say the element has infinite order.
-
-  \item \textbf{Subgroup}
-  
-  If a subset $H$ of a group $G$ is itself a group under the same operation of $G$,
-  we say that $H$ is a \textbf{subgroup} of $G$.
-\end{itemize}
-\end{definition}
-
-\begin{note}[title={Important Distinction}]
-The order of an element should not be confused with the order of a group.
-\end{note}
-
-\begin{property}[title={Subgroup Verification}]
-There are methods to check if $H$ is a valid subgroup of $G$. You don't need to check that it
-satisfies all of the axioms. Some methods to check are below.
-\end{property}
-
-\begin{methods}[title={Subgroup Tests}]
-\begin{enumerate}
-  \item \textbf{One-Step Subgroup Test}
-  
-  If $ab\inv$ is in $H$ whenever $a$ and $b$ are in $H$, then $H$ is a subgroup of $G$.
-  
-  \item \textbf{Two-Step Subgroup Test}
-  
-  If $ab$ is in $H$ whenever $a$ and $b$ are in $H$, and $a\inv$ is in $H$ whenever $a$ is in $H$, then $H$ is a subgroup of $G$.
-
-  \item \textbf{Finite Subgroup Test}
-  
-  Let $H$ be a nonempty finite subset of a group $G$. If $H$ is closed under the operation of $G$,
-  then $H$ is a subgroup of $G$.
+\begin{definition}
+A \emph{ring} is a set $R$ equipped with two binary operations, addition ($+$) and multiplication ($\cdot$), satisfying:
+\begin{enumerate}[label=(\roman*)]
+    \item $(R, +)$ is an abelian group with identity $0$.
+    \item Multiplication is associative: $(a \cdot b) \cdot c = a \cdot (b \cdot c)$ for all $a, b, c \in R$.
+    \item Distributivity: $a \cdot (b + c) = a \cdot b + a \cdot c$ and $(b + c) \cdot a = b \cdot a + c \cdot a$ for all $a, b, c \in R$.
 \end{enumerate}
-\end{methods}
-
-\chapter{Rings}
-\section{Introduction to Rings}
-
-\begin{definition}[title={Ring}]
-A ring is an algebraic structure consisting of a set equipped with two binary operations that generalize the arithmetic operations of addition and multiplication.
+A ring is \emph{commutative} if multiplication is commutative. A ring has a \emph{multiplicative identity} if there exists $1 \in R$ such that $1 \cdot a = a \cdot 1 = a$ for all $a \in R$.
 \end{definition}
 
-\chapter{Fields}
-\section{Introduction to Fields}
+\begin{example}
+The set of integers $\Z$ with standard addition and multiplication is a commutative ring with multiplicative identity $1$.
+\end{example}
 
-\begin{definition}[title={Field}]
-A field is a set on which addition, subtraction, multiplication, and division are defined and behave as the corresponding operations on rational and real numbers do.
+\section{Fields}
+
+\begin{definition}
+A \emph{field} is a commutative ring with a multiplicative identity $1 \neq 0$ in which every non-zero element $a \in F$ has a multiplicative inverse, i.e., there exists $b \in F$ such that $a \cdot b = 1$.
 \end{definition}
+
+\begin{example}
+The sets $\Q$, $\R$, and $\C$ are fields under standard addition and multiplication. The set $\Z$ is not a field, as elements like $2$ have no multiplicative inverse in $\Z$.
+\end{example}
+
+\begin{proposition}
+Every field is an integral domain, i.e., a commutative ring with $1 \neq 0$ and no zero divisors (if $a \cdot b = 0$, then $a = 0$ or $b = 0$).
+\end{proposition}
+\begin{proof}
+Let $F$ be a field, and suppose $a \cdot b = 0$ with $a \neq 0$. Since $F$ is a field, $a$ has a multiplicative inverse $a^{-1}$. Multiply both sides of $a \cdot b = 0$ by $a^{-1}$: $a^{-1} \cdot (a \cdot b) = a^{-1} \cdot 0$. This gives $(a^{-1} \cdot a) \cdot b = 0$, so $1 \cdot b = 0$, hence $b = 0$. Thus, $F$ is an integral domain.
+\end{proof}
 
 \end{document}

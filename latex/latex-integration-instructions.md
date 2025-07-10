@@ -14,10 +14,11 @@ This guide shows how to integrate LaTeX source files into your Astro site using 
 ## 1. Add a content‑generation script
 In your `package.json`, add a `generate-notes` script to run Pandoc. It converts a `.tex` file into an HTML fragment (`content.html`).  A small Lua filter is used to pull the theorem titles out of the LaTeX so that the resulting HTML contains `<p class="theo-title">` elements:
 
+pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/notes/abstract-algebra/content.html
 ```jsonc
 {
   "scripts": {
-    "generate-notes": "pandoc latex/MyNote.tex --katex --section-divs --lua-filter=latex/pandoc-filter.lua -o src/pages/notes/my-note/content.html",
+    "generate-notes": "pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/notes/abstract-algebra/content.html",
     "dev": "npm run generate-notes && astro dev",
     "build": "npm run generate-notes && astro build",
     /* other scripts */
