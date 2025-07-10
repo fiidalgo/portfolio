@@ -573,10 +573,10 @@ details[open] summary {
 }
 .latex-notes ul,
 .latex-notes ol {
-  margin: 0.75rem 0 0.75rem 1.5rem;
+  margin: 0.75rem 0 0.75rem 0;
 }
 .latex-notes li p {
-  display: inline;
+  display: block;
 }
 .latex-notes .center {
   text-align: center;
@@ -605,4 +605,8 @@ details[open] summary {
   background-color: #eef6ff;
   border-left-color: #0070f3;
   border-radius: 0.25rem;
+}
+.latex-notes .theo-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }

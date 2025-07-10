@@ -9,7 +9,7 @@ const { title, sidebarItems = [] } = frontmatter ?? {};
   <nav class="breadcrumbs">
     <a href="/notes">Math Notes</a>
     <span class="divider">/</span>
-    <span aria-current="page">{title}</span>
+    <span aria-current="page">{Astro.props.title}</span>
   </nav>
   <div class="notes-container">
     <Sidebar items={sidebarItems} />

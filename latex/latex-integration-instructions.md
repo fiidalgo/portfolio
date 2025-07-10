@@ -12,12 +12,12 @@ This guide shows how to integrate LaTeX source files into your Astro site using 
 - An Astro project with `NoteLayout.astro` and `BaseLayout.astro` already set up
 
 ## 1. Add a content‑generation script
-In your `package.json`, add a `generate-notes` script to run Pandoc. It converts a `.tex` file into an HTML fragment (`content.html`):
+In your `package.json`, add a `generate-notes` script to run Pandoc. It converts a `.tex` file into an HTML fragment (`content.html`).  A small Lua filter is used to pull the theorem titles out of the LaTeX so that the resulting HTML contains `<p class="theo-title">` elements:
 
 ```jsonc
 {
   "scripts": {
-    "generate-notes": "pandoc latex/MyNote.tex --katex --section-divs -o src/pages/notes/my-note/content.html",
+    "generate-notes": "pandoc latex/MyNote.tex --katex --section-divs --lua-filter=latex/pandoc-filter.lua -o src/pages/notes/my-note/content.html",
     "dev": "npm run generate-notes && astro dev",
     "build": "npm run generate-notes && astro build",
     /* other scripts */
@@ -71,7 +71,7 @@ import 'katex/dist/katex.min.css';
 ```
 
 ## 4. Styling theorem & box environments
-Add minimal CSS in your global stylesheet (`src/styles/global.css`) to style `tcolorbox`, `theo`, `proof`, and display math:
+Add minimal CSS in your global stylesheet (`src/styles/global.css`) to style `tcolorbox`, `theo`, `theo-title`, `proof`, and display math:
 
 ```css
 .latex-notes .tcolorbox {
@@ -85,6 +85,10 @@ Add minimal CSS in your global stylesheet (`src/styles/global.css`) to style `tc
   border-left: 4px solid #ddd;
   padding: 1rem;
   margin: 1.5rem 0;
+}
+.latex-notes .theo-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 .latex-notes .proof {
   margin: 1rem 0;
