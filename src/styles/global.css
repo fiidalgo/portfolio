@@ -547,3 +547,62 @@ details[open] summary {
   text-align: center;
   margin: 1.5rem 0;
 }
+
+/* Formatting for LaTeX notes layout */
+.latex-notes {
+  font-family: 'Lora', serif;
+  color: #222;
+  line-height: 1.6;
+}
+.latex-notes h1 {
+  font-size: 2rem;
+  margin: 2rem 0 1rem;
+}
+.latex-notes h2 {
+  font-size: 1.5rem;
+  margin: 1.75rem 0 0.75rem;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.25rem;
+}
+.latex-notes h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.latex-notes p {
+  margin: 0.75rem 0;
+}
+.latex-notes ul,
+.latex-notes ol {
+  margin: 0.75rem 0 0.75rem 1.5rem;
+}
+.latex-notes li p {
+  display: inline;
+}
+.latex-notes .center {
+  text-align: center;
+  margin: 1rem 0;
+}
+.latex-notes img {
+  max-width: 100%;
+  height: auto;
+}
+.latex-notes blockquote {
+  border-left: 3px solid #e5e5e5;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #555;
+}
+.latex-notes hr {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 2rem 0;
+}
+.latex-notes .tcolorbox {
+  border-left: 4px solid #0070f3;
+  border-radius: 0.25rem;
+}
+.latex-notes .theo {
+  background-color: #eef6ff;
+  border-left-color: #0070f3;
+  border-radius: 0.25rem;
+}

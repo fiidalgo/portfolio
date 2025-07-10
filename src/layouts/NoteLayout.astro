@@ -6,7 +6,11 @@ const { title, sidebarItems = [] } = frontmatter ?? {};
 ---
 
 <BaseLayout title={title}>
-  <nav class="breadcrumbs"><a href="/notes">Math Notes</a> / {title}</nav>
+  <nav class="breadcrumbs">
+    <a href="/notes">Math Notes</a>
+    <span class="divider">/</span>
+    <span aria-current="page">{title}</span>
+  </nav>
   <div class="notes-container">
     <Sidebar items={sidebarItems} />
     <div class="notes-content">

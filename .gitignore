@@ -24,3 +24,16 @@ pnpm-debug.log*
 .idea/
 
 .vercel/
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.glo
+*.ist
+*.acn
