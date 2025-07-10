@@ -556,7 +556,7 @@ details[open] summary {
 }
 .latex-notes h1 {
   font-size: 2rem;
-  margin: 2rem 0 1rem;
+  margin: 0 0 1rem;
 }
 .latex-notes h2 {
   font-size: 1.5rem;
@@ -610,3 +610,126 @@ details[open] summary {
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
+
+/* -------------------------------------------------- */
+/* Enhanced styling for mathematical note boxes       */
+/* -------------------------------------------------- */
+
+/* counters for theorem style environments */
+.latex-notes {
+  counter-reset: theorem definition corollary lemma axiom postulate proposition;
+}
+
+.latex-notes .theorem {
+  counter-increment: theorem;
+  background-color: #f5f0ff;
+  border-left: 4px solid #6a4fb9;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.latex-notes .definition {
+  counter-increment: definition;
+  background-color: #f0f8ff;
+  border-left: 4px solid #1e90ff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.latex-notes .corollary {
+  counter-increment: corollary;
+  background-color: #fffaf0;
+  border-left: 4px solid #ff7f50;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.latex-notes .lemma {
+  counter-increment: lemma;
+  background-color: #f0fff0;
+  border-left: 4px solid #2e8b57;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.latex-notes .axiom,
+.latex-notes .postulate {
+  counter-increment: axiom;
+  background-color: #fffff0;
+  border-left: 4px solid #daa520;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.latex-notes .proposition {
+  counter-increment: proposition;
+  background-color: #f9f9f9;
+  border-left: 4px solid #696969;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* shared title style */
+.latex-notes .box-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.latex-notes .definition > .box-title::before {
+  content: 'Definition ' counter(definition) ': ';
+}
+.latex-notes .corollary > .box-title::before {
+  content: 'Corollary ' counter(corollary) ': ';
+}
+.latex-notes .lemma > .box-title::before {
+  content: 'Lemma ' counter(lemma) ': ';
+}
+.latex-notes .axiom > .box-title::before {
+  content: 'Axiom ' counter(axiom) ': ';
+}
+.latex-notes .postulate > .box-title::before {
+  content: 'Postulate ' counter(axiom) ': ';
+}
+.latex-notes .proposition > .box-title::before {
+  content: 'Proposition ' counter(proposition) ': ';
+}
+
+/* Callout sections */
+.latex-notes .callout {
+  border-left: 4px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #f9f9f9;
+}
+.latex-notes .tip {
+  border-left-color: #2ecc71;
+  background-color: #f5fbf7;
+}
+.latex-notes .warning {
+  border-left-color: #f39c12;
+  background-color: #fffaf2;
+}
+.latex-notes .remark {
+  border-left-color: #20b2aa;
+  background-color: #f4fbfb;
+}
+.latex-notes .tip::before,
+.latex-notes .warning::before,
+.latex-notes .remark::before {
+  margin-right: 0.5rem;
+}
+
+/* QED symbol alignment */
+.latex-notes .qed {
+  float: right;
+  margin-left: 0.5rem;
+}
+
+/* highlight helper */
+.latex-notes mark {
+  background-color: #fff59d;
+  padding: 0 0.2em;
+}
+

@@ -34,9 +34,50 @@
 \usepackage{tikz}
 \usepackage[most]{tcolorbox}
 
+% Define theorem environments with tcolorbox
 \newtcbtheorem{theo}%
-  {Theorem}{}{theorem}
-  
+  {Theorem}{colback=red!5!white,colframe=red!50!black,separator sign colon}{theorem}
+
+% Define definition environment
+\newtcolorbox{definition}[1][]{
+  title={Definition},
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  #1
+}
+
+% Define example environment
+\newtcolorbox{example}[1][]{
+  title={Example},
+  colback=green!5!white,
+  colframe=green!50!black,
+  #1
+}
+
+% Define note environment
+\newtcolorbox{note}[1][]{
+  title={Note},
+  colback=yellow!5!white,
+  colframe=yellow!50!black,
+  #1
+}
+
+% Define property environment
+\newtcolorbox{property}[1][]{
+  title={Property},
+  colback=purple!5!white,
+  colframe=purple!50!black,
+  #1
+}
+
+% Define methods environment for tests/procedures
+\newtcolorbox{methods}[1][]{
+  title={Methods},
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  #1
+}
+
 \usepackage{siunitx}
 \usepackage{setspace}
 \onehalfspacing
@@ -52,107 +93,122 @@
 \chapter{Groups}
 \section{Introduction to Groups}
 
-\begin{tcolorbox}[title=Binary Operation]
-  Let $G$ be a set. A binary operation on $G$ is a function that 
-  assigns an ordered pair of $G$ to an element of $G$.
+\begin{definition}[title={Binary Operation}]
+Let $G$ be a set. A binary operation on $G$ is a function that 
+assigns an ordered pair of $G$ to an element of $G$.
 
-  The binary operation \textbf{must} be \textbf{closed}.
+The binary operation \textbf{must} be \textbf{closed}.
 
-  Assigns each ordered pair on $G$ to an element of $G$.
-\end{tcolorbox}
+Assigns each ordered pair on $G$ to an element of $G$.
+\end{definition}
 
-\begin{tcolorbox}[title=Group]
-A group is a set with a binary operation that satisfies the following properties
+\begin{definition}[title={Group}]
+A group is a set with a binary operation that satisfies the following properties:
 
-  \begin{enumerate}
-    \item \em{Associativity}
-    \[ (a * b) * c = a * (b * c) \quad \forall a, b, c \in G \]
-    \item \em{Identity}
-    \[ \exists e \st ae = ea = a \quad \forall a \in G \]
-    \item \em{Inverse}
-    \[ \forall a \in G, \exists b \in G \st ab = ba = e\]
-  \end{enumerate}
-\end{tcolorbox}
+\begin{enumerate}
+  \item \textbf{Associativity}
+  \[ (a * b) * c = a * (b * c) \quad \forall a, b, c \in G \]
+  \item \textbf{Identity}
+  \[ \exists e \st ae = ea = a \quad \forall a \in G \]
+  \item \textbf{Inverse}
+  \[ \forall a \in G, \exists b \in G \st ab = ba = e\]
+\end{enumerate}
+\end{definition}
 
-A group is called \textit{abelian} if it is commutatitve.
-
-\begin{center}
-  \includegraphics[scale=0.3]{images/groupexamples.png}
-\end{center}
+\begin{note}
+A group is called \textit{abelian} if it is commutative.
+\end{note}
 
 \section{Properties of Groups}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Identity}{theorem}
-In a group $G$, there exsits \textbf{one unique} identity element.
+\begin{theo}[separator sign colon]{Unique Identity}{unique-identity}
+In a group $G$, there exists \textbf{one unique} identity element.
 \end{theo}
 
 \begin{proof}
-  Suppose $e$ and $e'$ are identities of $G$. Then
-  \begin{enumerate}
-    \item $ae = a, \quad \forall a \in G$
-    \item $ae' = a, \quad \forall a \in G$
-  \end{enumerate}
-  Using this, observe
-  \[ ae = ae' \]
-  \[ a^{-1}ae = a^{-1}ae' \]
-  \[ e = e' \]
-  Thus $e = e'$
+Suppose $e$ and $e'$ are identities of $G$. Then
+\begin{enumerate}
+  \item $ae = a, \quad \forall a \in G$
+  \item $ae' = a, \quad \forall a \in G$
+\end{enumerate}
+Using this, observe
+\[ ae = ae' \]
+\[ a^{-1}ae = a^{-1}ae' \]
+\[ e = e' \]
+Thus $e = e'$.
 \end{proof}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Cancellation Law}{theorem}
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Cancellation Law}{cancellation-law}
 In a group $G$, left and right cancellation law holds.
 \end{theo}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Inverse}{theorem}
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Unique Inverse}{unique-inverse}
 \[ \forall a \in G, \existu b \in G \st ab = ba = e\]
 \end{theo}
 
-\begin{theo}[colback=red!5!white,colframe=red!50!black]{Shoe-Socks Property}{theorem}
-  \[ \forall a, b \in G, (ab)\inv = b\inv a\inv \]
+\begin{theo}[colback=red!5!white,colframe=red!50!black]{Shoe-Socks Property}{shoe-socks}
+\[ \forall a, b \in G, (ab)\inv = b\inv a\inv \]
 \end{theo}
 
 \section{Finite Groups; Subgroups}
-\begin{tcolorbox}[title=Definition]
-  \begin{itemize}
-    \item Order of a Group
-    
-    The number of elements in a group is called the \textbf{order}. Denoted as $|G|$.
 
-    \item Order of an Element
-    
-    The \textbf{order} of an element is the smallest positive integer $n$ such that $a^n = e$.
-
-    If no such integer exists, we say the element has infinite order.
-
-    {\color{red} This should not be confused with the order of a group.}
-    
-    \item Subgroup
-    
-    If a subset $H$ of a group $G$ is itself a group under the same operation of $G$,
-    we say that $H$ is a \textbf{subgroup} of $G$.
-  \end{itemize}
-\end{tcolorbox}
-There are methods to check if $H$ is a valid subgroup of $G$. You don't need to check that it
-satisfies all of the axioms. Some methods to check are below
-
-\begin{tcolorbox}[title=Subgroup Test]
-  \begin{enumerate}
-    \item \textbf{One-Step Subgroup Test}
-    
-    If $ab\inv$ is in $H$ whenever $a$ and $b$ are in $H$, then $H$ is a subgroup of $G$.
-    
-    \item \textbf{Two-Step Subgroup Test }
-    
-    If $ab$ is in $H$ whenever $a$ and $b$ are in $H$, and $a\inv$ is in $H$ whenever $a$ is in $H$, then $H$ is a subgroup of $G$.
-
-    \item \textbf{Finite Subgroup Test}
-    
-    Let $H$ be a nonempty finite subset of a group $G$. If $H$ is closed under the operation of $G$,
-    then $H$ is a subgroup of $G$.
-
-  \end{enumerate}
+\begin{definition}[title={Group and Element Orders}]
+\begin{itemize}
+  \item \textbf{Order of a Group}
   
-\end{tcolorbox}
+  The number of elements in a group is called the \textbf{order}. Denoted as $|G|$.
 
+  \item \textbf{Order of an Element}
+  
+  The \textbf{order} of an element is the smallest positive integer $n$ such that $a^n = e$.
+
+  If no such integer exists, we say the element has infinite order.
+
+  \item \textbf{Subgroup}
+  
+  If a subset $H$ of a group $G$ is itself a group under the same operation of $G$,
+  we say that $H$ is a \textbf{subgroup} of $G$.
+\end{itemize}
+\end{definition}
+
+\begin{note}[title={Important Distinction}]
+The order of an element should not be confused with the order of a group.
+\end{note}
+
+\begin{property}[title={Subgroup Verification}]
+There are methods to check if $H$ is a valid subgroup of $G$. You don't need to check that it
+satisfies all of the axioms. Some methods to check are below.
+\end{property}
+
+\begin{methods}[title={Subgroup Tests}]
+\begin{enumerate}
+  \item \textbf{One-Step Subgroup Test}
+  
+  If $ab\inv$ is in $H$ whenever $a$ and $b$ are in $H$, then $H$ is a subgroup of $G$.
+  
+  \item \textbf{Two-Step Subgroup Test}
+  
+  If $ab$ is in $H$ whenever $a$ and $b$ are in $H$, and $a\inv$ is in $H$ whenever $a$ is in $H$, then $H$ is a subgroup of $G$.
+
+  \item \textbf{Finite Subgroup Test}
+  
+  Let $H$ be a nonempty finite subset of a group $G$. If $H$ is closed under the operation of $G$,
+  then $H$ is a subgroup of $G$.
+\end{enumerate}
+\end{methods}
+
+\chapter{Rings}
+\section{Introduction to Rings}
+
+\begin{definition}[title={Ring}]
+A ring is an algebraic structure consisting of a set equipped with two binary operations that generalize the arithmetic operations of addition and multiplication.
+\end{definition}
+
+\chapter{Fields}
+\section{Introduction to Fields}
+
+\begin{definition}[title={Field}]
+A field is a set on which addition, subtraction, multiplication, and division are defined and behave as the corresponding operations on rational and real numbers do.
+\end{definition}
 
 \end{document}

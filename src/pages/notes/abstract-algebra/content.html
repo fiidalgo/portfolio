@@ -1,134 +1,191 @@
-<section id="groups" class="level1">
-<h1>Groups</h1>
-<section id="introduction-to-groups" class="level2">
-<h2>Introduction to Groups</h2>
-<div class="tcolorbox">
-<p>Let <span class="math inline">G</span> be a set. A binary operation
-on <span class="math inline">G</span> is a function that assigns an
-ordered pair of <span class="math inline">G</span> to an element of
-<span class="math inline">G</span>.</p>
+<section id="groups" class="level1 header-level-1">
+<h1 class="header-level-1">Groups</h1>
+<section id="introduction-to-groups" class="level2 header-level-2">
+<h2 class="header-level-2">Introduction to Groups</h2>
+<div class="definition">
+<p>Let <span class="inline-math"><span
+class="math inline">G</span></span> be a set. A binary operation on
+<span class="inline-math"><span class="math inline">G</span></span> is a
+function that assigns an ordered pair of <span class="inline-math"><span
+class="math inline">G</span></span> to an element of <span
+class="inline-math"><span class="math inline">G</span></span>.</p>
 <p>The binary operation <strong>must</strong> be
 <strong>closed</strong>.</p>
-<p>Assigns each ordered pair on <span class="math inline">G</span> to an
-element of <span class="math inline">G</span>.</p>
+<p>Assigns each ordered pair on <span class="inline-math"><span
+class="math inline">G</span></span> to an element of <span
+class="inline-math"><span class="math inline">G</span></span>.</p>
 </div>
-<div class="tcolorbox">
+<div class="definition">
 <p>A group is a set with a binary operation that satisfies the following
-properties</p>
+properties:</p>
 <ol>
-<li><p><em><span>Associativity</span> <span class="math display">(a * b)
-* c = a * (b * c) \quad \forall\, a, b, c \in G</span></em></p></li>
-<li><p><em><span>Identity</span> <span class="math display">\exists\: e
-\quad \mathrm{s.t.} \quad ae = ea = a \quad \forall\, a \in
-G</span></em></p></li>
-<li><p><em><span>Inverse</span> <span class="math display">\forall\, a
-\in G, \exists\: b \in G \quad \mathrm{s.t.} \quad ab = ba =
-e</span></em></p></li>
+<li><p><strong>Associativity</strong> <span class="display-math"><span
+class="math display">(a * b) * c = a * (b * c) \quad \forall\, a, b, c
+\in G</span></span></p></li>
+<li><p><strong>Identity</strong> <span class="display-math"><span
+class="math display">\exists\: e \quad \mathrm{s.t.} \quad ae = ea = a
+\quad \forall\, a \in G</span></span></p></li>
+<li><p><strong>Inverse</strong> <span class="display-math"><span
+class="math display">\forall\, a \in G, \exists\: b \in G \quad
+\mathrm{s.t.} \quad ab = ba = e</span></span></p></li>
 </ol>
 </div>
-<p>A group is called <em>abelian</em> if it is commutatitve.</p>
-<div class="center">
-<p><img src="images/groupexamples.png" alt="image" /></p>
+<div class="note">
+<p>A group is called <span class="math-emphasis">abelian</span> if it is
+commutative.</p>
 </div>
 </section>
-<section id="properties-of-groups" class="level2">
-<h2>Properties of Groups</h2>
-<div class="theo">
-<div class="theo-title">
-<p><strong>Unique Identity</strong></p>
+<section id="properties-of-groups" class="level2 header-level-2">
+<h2 class="header-level-2">Properties of Groups</h2>
+<div class="theorem theorem-box">
+<section class="level4 box-title">
+<h4>Theorem 1: Unique Identity</h4>
+</section>
+<p> In a group <span class="inline-math"><span
+class="math inline">G</span></span>, there exists <strong>one
+unique</strong> identity element.</p>
 </div>
-<p> In a group <span class="math inline">G</span>, there exsits
-<strong>one unique</strong> identity element.</p>
-</div>
-<div class="proof">
-<p><em>Proof.</em> Suppose <span class="math inline">e</span> and <span
-class="math inline">e&#39;</span> are identities of <span
-class="math inline">G</span>. Then</p>
+<div class="proof proof-box">
+<p><span class="math-emphasis">Proof.</span> Suppose <span
+class="inline-math"><span class="math inline">e</span></span> and <span
+class="inline-math"><span class="math inline">e&#39;</span></span> are
+identities of <span class="inline-math"><span
+class="math inline">G</span></span>. Then</p>
 <ol>
-<li><p><span class="math inline">ae = a, \quad \forall\, a \in
-G</span></p></li>
-<li><p><span class="math inline">ae&#39; = a, \quad \forall\, a \in
-G</span></p></li>
+<li><p><span class="inline-math"><span class="math inline">ae = a, \quad
+\forall\, a \in G</span></span></p></li>
+<li><p><span class="inline-math"><span class="math inline">ae&#39; = a,
+\quad \forall\, a \in G</span></span></p></li>
 </ol>
-<p>Using this, observe <span class="math display">ae = ae&#39;</span>
-<span class="math display">a^{-1}ae = a^{-1}ae&#39;</span> <span
-class="math display">e = e&#39;</span> Thus <span class="math inline">e
-= e&#39;</span> ◻</p>
+<p>Using this, observe <span class="display-math"><span
+class="math display">ae = ae&#39;</span></span> <span
+class="display-math"><span class="math display">a^{-1}ae =
+a^{-1}ae&#39;</span></span> <span class="display-math"><span
+class="math display">e = e&#39;</span></span> Thus <span
+class="inline-math"><span class="math inline">e =
+e&#39;</span></span>. ◻</p>
 </div>
-<div class="theo">
-<div class="theo-title">
-<p><strong>Cancellation Law</strong></p>
+<div class="theorem theorem-box">
+<section class="level4 box-title">
+<h4>Theorem 2: Cancellation Law</h4>
+</section>
+<p> In a group <span class="inline-math"><span
+class="math inline">G</span></span>, left and right cancellation law
+holds.</p>
 </div>
-<p> In a group <span class="math inline">G</span>, left and right
-cancellation law holds.</p>
+<div class="theorem theorem-box">
+<section class="level4 box-title">
+<h4>Theorem 3: Unique Inverse</h4>
+</section>
+<p> <span class="display-math"><span class="math display">\forall\, a
+\in G, \exists! \: b \in G \quad \mathrm{s.t.} \quad ab = ba =
+e</span></span></p>
 </div>
-<div class="theo">
-<div class="theo-title">
-<p><strong>Unique Inverse</strong></p>
-</div>
-<p> <span class="math display">\forall\, a \in G, \exists! \: b \in G
-\quad \mathrm{s.t.} \quad ab = ba = e</span></p>
-</div>
-<div class="theo">
-<div class="theo-title">
-<p><strong>Shoe-Socks Property</strong></p>
-</div>
-<p> <span class="math display">\forall\, a, b \in G, (ab)^{-1}=
-b^{-1}a^{-1}</span></p>
+<div class="theorem theorem-box">
+<section class="level4 box-title">
+<h4>Theorem 4: Shoe-Socks Property</h4>
+</section>
+<p> <span class="display-math"><span class="math display">\forall\, a, b
+\in G, (ab)^{-1}= b^{-1}a^{-1}</span></span></p>
 </div>
 </section>
-<section id="finite-groups-subgroups" class="level2">
-<h2>Finite Groups; Subgroups</h2>
-<div class="tcolorbox">
+<section id="finite-groups-subgroups" class="level2 header-level-2">
+<h2 class="header-level-2">Finite Groups; Subgroups</h2>
+<div class="definition">
 <ul>
-<li><p>Order of a Group</p>
+<li><p><strong>Order of a Group</strong></p>
 <p>The number of elements in a group is called the
-<strong>order</strong>. Denoted as <span
-class="math inline">|G|</span>.</p></li>
-<li><p>Order of an Element</p>
+<strong>order</strong>. Denoted as <span class="inline-math"><span
+class="math inline">|G|</span></span>.</p></li>
+<li><p><strong>Order of an Element</strong></p>
 <p>The <strong>order</strong> of an element is the smallest positive
-integer <span class="math inline">n</span> such that <span
-class="math inline">a^n = e</span>.</p>
-<p>If no such integer exists, we say the element has infinite order.</p>
-<p><span> This should not be confused with the order of a
-group.</span></p></li>
-<li><p>Subgroup</p>
-<p>If a subset <span class="math inline">H</span> of a group <span
-class="math inline">G</span> is itself a group under the same operation
-of <span class="math inline">G</span>, we say that <span
-class="math inline">H</span> is a <strong>subgroup</strong> of <span
-class="math inline">G</span>.</p></li>
+integer <span class="inline-math"><span
+class="math inline">n</span></span> such that <span
+class="inline-math"><span class="math inline">a^n = e</span></span>.</p>
+<p>If no such integer exists, we say the element has infinite
+order.</p></li>
+<li><p><strong>Subgroup</strong></p>
+<p>If a subset <span class="inline-math"><span
+class="math inline">H</span></span> of a group <span
+class="inline-math"><span class="math inline">G</span></span> is itself
+a group under the same operation of <span class="inline-math"><span
+class="math inline">G</span></span>, we say that <span
+class="inline-math"><span class="math inline">H</span></span> is a
+<strong>subgroup</strong> of <span class="inline-math"><span
+class="math inline">G</span></span>.</p></li>
 </ul>
 </div>
-<p>There are methods to check if <span class="math inline">H</span> is a
-valid subgroup of <span class="math inline">G</span>. You don’t need to
-check that it satisfies all of the axioms. Some methods to check are
-below</p>
-<div class="tcolorbox">
+<div class="note">
+<p>The order of an element should not be confused with the order of a
+group.</p>
+</div>
+<div class="property">
+<p>There are methods to check if <span class="inline-math"><span
+class="math inline">H</span></span> is a valid subgroup of <span
+class="inline-math"><span class="math inline">G</span></span>. You don’t
+need to check that it satisfies all of the axioms. Some methods to check
+are below.</p>
+</div>
+<div class="methods">
 <ol>
 <li><p><strong>One-Step Subgroup Test</strong></p>
-<p>If <span class="math inline">ab^{-1}</span> is in <span
-class="math inline">H</span> whenever <span class="math inline">a</span>
-and <span class="math inline">b</span> are in <span
-class="math inline">H</span>, then <span class="math inline">H</span> is
-a subgroup of <span class="math inline">G</span>.</p></li>
+<p>If <span class="inline-math"><span
+class="math inline">ab^{-1}</span></span> is in <span
+class="inline-math"><span class="math inline">H</span></span> whenever
+<span class="inline-math"><span class="math inline">a</span></span> and
+<span class="inline-math"><span class="math inline">b</span></span> are
+in <span class="inline-math"><span class="math inline">H</span></span>,
+then <span class="inline-math"><span class="math inline">H</span></span>
+is a subgroup of <span class="inline-math"><span
+class="math inline">G</span></span>.</p></li>
 <li><p><strong>Two-Step Subgroup Test</strong></p>
-<p>If <span class="math inline">ab</span> is in <span
-class="math inline">H</span> whenever <span class="math inline">a</span>
-and <span class="math inline">b</span> are in <span
-class="math inline">H</span>, and <span
-class="math inline">a^{-1}</span> is in <span
-class="math inline">H</span> whenever <span class="math inline">a</span>
-is in <span class="math inline">H</span>, then <span
-class="math inline">H</span> is a subgroup of <span
-class="math inline">G</span>.</p></li>
+<p>If <span class="inline-math"><span
+class="math inline">ab</span></span> is in <span
+class="inline-math"><span class="math inline">H</span></span> whenever
+<span class="inline-math"><span class="math inline">a</span></span> and
+<span class="inline-math"><span class="math inline">b</span></span> are
+in <span class="inline-math"><span class="math inline">H</span></span>,
+and <span class="inline-math"><span
+class="math inline">a^{-1}</span></span> is in <span
+class="inline-math"><span class="math inline">H</span></span> whenever
+<span class="inline-math"><span class="math inline">a</span></span> is
+in <span class="inline-math"><span class="math inline">H</span></span>,
+then <span class="inline-math"><span class="math inline">H</span></span>
+is a subgroup of <span class="inline-math"><span
+class="math inline">G</span></span>.</p></li>
 <li><p><strong>Finite Subgroup Test</strong></p>
-<p>Let <span class="math inline">H</span> be a nonempty finite subset of
-a group <span class="math inline">G</span>. If <span
-class="math inline">H</span> is closed under the operation of <span
-class="math inline">G</span>, then <span class="math inline">H</span> is
-a subgroup of <span class="math inline">G</span>.</p></li>
+<p>Let <span class="inline-math"><span
+class="math inline">H</span></span> be a nonempty finite subset of a
+group <span class="inline-math"><span
+class="math inline">G</span></span>. If <span class="inline-math"><span
+class="math inline">H</span></span> is closed under the operation of
+<span class="inline-math"><span class="math inline">G</span></span>,
+then <span class="inline-math"><span class="math inline">H</span></span>
+is a subgroup of <span class="inline-math"><span
+class="math inline">G</span></span>.</p></li>
 </ol>
+</div>
+</section>
+</section>
+<section id="rings" class="level1 header-level-1">
+<h1 class="header-level-1">Rings</h1>
+<section id="introduction-to-rings" class="level2 header-level-2">
+<h2 class="header-level-2">Introduction to Rings</h2>
+<div class="definition">
+<p>A ring is an algebraic structure consisting of a set equipped with
+two binary operations that generalize the arithmetic operations of
+addition and multiplication.</p>
+</div>
+</section>
+</section>
+<section id="fields" class="level1 header-level-1">
+<h1 class="header-level-1">Fields</h1>
+<section id="introduction-to-fields" class="level2 header-level-2">
+<h2 class="header-level-2">Introduction to Fields</h2>
+<div class="definition">
+<p>A field is a set on which addition, subtraction, multiplication, and
+division are defined and behave as the corresponding operations on
+rational and real numbers do.</p>
 </div>
 </section>
 </section>
