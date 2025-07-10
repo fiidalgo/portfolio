@@ -522,3 +522,28 @@ details[open] summary {
     padding-bottom: 2rem;
 }
 
+/* Styles for embedded LaTeX notes */
+.latex-notes .tcolorbox {
+  border: 1px solid #e5e5e5;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.latex-notes .theo {
+  background-color: #f5f5f5;
+  border-left: 4px solid #ddd;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.latex-notes .proof {
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.latex-notes .math.display {
+  display: block;
+  text-align: center;
+  margin: 1.5rem 0;
+}

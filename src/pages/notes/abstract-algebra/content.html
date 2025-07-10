@@ -1,0 +1,125 @@
+<section id="groups" class="level1">
+<h1>Groups</h1>
+<section id="introduction-to-groups" class="level2">
+<h2>Introduction to Groups</h2>
+<div class="tcolorbox">
+<p>Let <span class="math inline">G</span> be a set. A binary operation
+on <span class="math inline">G</span> is a function that assigns an
+ordered pair of <span class="math inline">G</span> to an element of
+<span class="math inline">G</span>.</p>
+<p>The binary operation <strong>must</strong> be
+<strong>closed</strong>.</p>
+<p>Assigns each ordered pair on <span class="math inline">G</span> to an
+element of <span class="math inline">G</span>.</p>
+</div>
+<div class="tcolorbox">
+<p>A group is a set with a binary operation that satisfies the following
+properties</p>
+<ol>
+<li><p><em><span>Associativity</span> <span class="math display">(a * b)
+* c = a * (b * c) \quad \forall\, a, b, c \in G</span></em></p></li>
+<li><p><em><span>Identity</span> <span class="math display">\exists\: e
+\quad \mathrm{s.t.} \quad ae = ea = a \quad \forall\, a \in
+G</span></em></p></li>
+<li><p><em><span>Inverse</span> <span class="math display">\forall\, a
+\in G, \exists\: b \in G \quad \mathrm{s.t.} \quad ab = ba =
+e</span></em></p></li>
+</ol>
+</div>
+<p>A group is called <em>abelian</em> if it is commutatitve.</p>
+<div class="center">
+<p><img src="images/groupexamples.png" alt="image" /></p>
+</div>
+</section>
+<section id="properties-of-groups" class="level2">
+<h2>Properties of Groups</h2>
+<div class="theo">
+<p><span>Unique Identity</span><span>theorem</span> In a group <span
+class="math inline">G</span>, there exsits <strong>one unique</strong>
+identity element.</p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Suppose <span class="math inline">e</span> and <span
+class="math inline">e&#39;</span> are identities of <span
+class="math inline">G</span>. Then</p>
+<ol>
+<li><p><span class="math inline">ae = a, \quad \forall\, a \in
+G</span></p></li>
+<li><p><span class="math inline">ae&#39; = a, \quad \forall\, a \in
+G</span></p></li>
+</ol>
+<p>Using this, observe <span class="math display">ae = ae&#39;</span>
+<span class="math display">a^{-1}ae = a^{-1}ae&#39;</span> <span
+class="math display">e = e&#39;</span> Thus <span class="math inline">e
+= e&#39;</span> ◻</p>
+</div>
+<div class="theo">
+<p><span>Cancellation Law</span><span>theorem</span> In a group <span
+class="math inline">G</span>, left and right cancellation law holds.</p>
+</div>
+<div class="theo">
+<p><span>Unique Inverse</span><span>theorem</span> <span
+class="math display">\forall\, a \in G, \exists! \: b \in G \quad
+\mathrm{s.t.} \quad ab = ba = e</span></p>
+</div>
+<div class="theo">
+<p><span>Shoe-Socks Property</span><span>theorem</span> <span
+class="math display">\forall\, a, b \in G, (ab)^{-1}=
+b^{-1}a^{-1}</span></p>
+</div>
+</section>
+<section id="finite-groups-subgroups" class="level2">
+<h2>Finite Groups; Subgroups</h2>
+<div class="tcolorbox">
+<ul>
+<li><p>Order of a Group</p>
+<p>The number of elements in a group is called the
+<strong>order</strong>. Denoted as <span
+class="math inline">|G|</span>.</p></li>
+<li><p>Order of an Element</p>
+<p>The <strong>order</strong> of an element is the smallest positive
+integer <span class="math inline">n</span> such that <span
+class="math inline">a^n = e</span>.</p>
+<p>If no such integer exists, we say the element has infinite order.</p>
+<p><span> This should not be confused with the order of a
+group.</span></p></li>
+<li><p>Subgroup</p>
+<p>If a subset <span class="math inline">H</span> of a group <span
+class="math inline">G</span> is itself a group under the same operation
+of <span class="math inline">G</span>, we say that <span
+class="math inline">H</span> is a <strong>subgroup</strong> of <span
+class="math inline">G</span>.</p></li>
+</ul>
+</div>
+<p>There are methods to check if <span class="math inline">H</span> is a
+valid subgroup of <span class="math inline">G</span>. You don’t need to
+check that it satisfies all of the axioms. Some methods to check are
+below</p>
+<div class="tcolorbox">
+<ol>
+<li><p><strong>One-Step Subgroup Test</strong></p>
+<p>If <span class="math inline">ab^{-1}</span> is in <span
+class="math inline">H</span> whenever <span class="math inline">a</span>
+and <span class="math inline">b</span> are in <span
+class="math inline">H</span>, then <span class="math inline">H</span> is
+a subgroup of <span class="math inline">G</span>.</p></li>
+<li><p><strong>Two-Step Subgroup Test</strong></p>
+<p>If <span class="math inline">ab</span> is in <span
+class="math inline">H</span> whenever <span class="math inline">a</span>
+and <span class="math inline">b</span> are in <span
+class="math inline">H</span>, and <span
+class="math inline">a^{-1}</span> is in <span
+class="math inline">H</span> whenever <span class="math inline">a</span>
+is in <span class="math inline">H</span>, then <span
+class="math inline">H</span> is a subgroup of <span
+class="math inline">G</span>.</p></li>
+<li><p><strong>Finite Subgroup Test</strong></p>
+<p>Let <span class="math inline">H</span> be a nonempty finite subset of
+a group <span class="math inline">G</span>. If <span
+class="math inline">H</span> is closed under the operation of <span
+class="math inline">G</span>, then <span class="math inline">H</span> is
+a subgroup of <span class="math inline">G</span>.</p></li>
+</ol>
+</div>
+</section>
+</section>
