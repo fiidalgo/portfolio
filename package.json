@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "generate-notes": "pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/notes/abstract-algebra/content.html",
+    "generate-notes": "pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/math/abstract-algebra/content.html",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",

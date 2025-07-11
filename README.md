@@ -4,7 +4,7 @@ This repository contains the source code for Andre Amor's personal website built
 
 ## Project Overview
 - **Home/Resume**: `/src/pages/index.astro` contains details about education, work experience, skills, and social links.
-- **Math Notes**: Markdown files under `/src/pages/notes/` use `NoteLayout.astro` to automatically render math using KaTeX and provide sidebar navigation.
+- **Math Notes**: Pages under `/src/pages/notes/` are generated from LaTeX sources and rendered with `NoteLayout.astro` for KaTeX support and sidebar navigation.
 
 ## Project Structure
 
@@ -34,17 +34,7 @@ Run the following from the project root:
 ## Math Notes Workflow
 
 1. Run `npm install` once to install dependencies.
-2. Start the dev server with `npm run dev`.
-3. Create Markdown files under `src/pages/notes/` with frontmatter similar to:
+2. Place your `.tex` files anywhere inside the `latex/` directory. Folder names map directly to `src/pages/notes/` when compiled.
+3. Run `npm run dev` to build the notes and start the dev server. The script `npm run generate-notes` converts all LaTeX files into HTML fragments and creates the necessary `index.astro` files automatically.
 
-   ```markdown
-   ---
-   title: "My Topic"
-   layout: ../../layouts/NoteLayout.astro
-   sidebarItems:
-     - { title: "Section 1", href: "#sec1" }
-   ---
-   ```
-
-Each Markdown heading receives an id derived from its text. Use that id in your `sidebarItems` to create navigation links. Write LaTeX expressions inside `$...$` or `$$...$$` and they will be rendered automatically when the site is built or served.
-
+Every build mirrors the directory structure of `latex/` under `src/pages/notes/`. New notes appear on the Math Notes home page without manual edits.
