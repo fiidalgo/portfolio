@@ -539,7 +539,6 @@ details[open] summary {
 
 .latex-notes .proof {
   margin: 1rem 0;
-  font-style: italic;
 }
 
 .latex-notes .math.display {
@@ -733,3 +732,6 @@ details[open] summary {
   padding: 0 0.2em;
 }
 
+.math-emphasis {
+    font-style: italic;
+}
