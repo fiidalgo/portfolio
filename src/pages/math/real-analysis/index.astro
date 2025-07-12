@@ -1,15 +1,11 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NoteLayout from '../../../layouts/NoteLayout.astro';
+import content from './content.html?raw';
+
+const title = 'Groups';
+const sidebarItems = [];
 ---
 
-<BaseLayout title="Real Analysis">
-  <div class="container">
-    <nav class="breadcrumbs">
-      <a href="/notes">Math Notes</a>
-      <span class="divider">/</span>
-      <span aria-current="page">Real Analysis</span>
-    </nav>
-    <h1>Real Analysis</h1>
-    <p>Work in progress</p>
-  </div>
-</BaseLayout>
+<NoteLayout title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>

@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "generate-notes": "pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/math/abstract-algebra/content.html",
-    "dev": "astro dev",
-    "build": "astro build",
+    "generate-notes": "node scripts/generate-notes.js",
+    "dev": "npm run generate-notes && astro dev",
+    "build": "npm run generate-notes && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

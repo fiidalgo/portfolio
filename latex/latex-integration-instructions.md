@@ -12,19 +12,149 @@ This guide shows how to integrate LaTeX source files into your Astro site using 
 - An Astro project with `NoteLayout.astro` and `BaseLayout.astro` already set up
 
 ## 1. Add a content‑generation script
-In your `package.json`, add a `generate-notes` script to run Pandoc. It converts a `.tex` file into an HTML fragment (`content.html`).  A small Lua filter is used to pull the theorem titles out of the LaTeX so that the resulting HTML contains `<p class="theo-title">` elements:
+First, mirror your site taxonomy in the `latex/` directory. For example:
 
-pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/notes/abstract-algebra/content.html
+```text
+latex/
+  math/
+    abstract-algebra/
+      introduction.tex
+      groups.tex
+      rings.tex
+    real-analysis/
+      measure-theory.tex
+  cs/
+    algorithms/
+      algorithms.tex
+      dynamic-programming.tex
+    data-structures/
+      trees.tex
+      graphs.tex
+```
+
+Next, add a Node script (`scripts/generate-notes.js`) that:
+
+- Recursively scans `latex/`, finds each `.tex` file, and compiles it via Pandoc into `content.html`.
+- Generates an `index.astro` for every topic folder, injecting the compiled HTML and wiring up the layout.
+- Updates each section’s `index.astro` to display a grid of topic cards on the homepage.
+
+Run it via your npm scripts:
+
+```bash
+npm install
+npm run generate-notes
+```
+
+Below is a minimal example of `scripts/generate-notes.js` (adjust filters, CSS, etc. as needed):
+
+```js
+#!/usr/bin/env node
+
+import fs from 'fs/promises';
+import { rmSync } from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+
+function humanize(name) {
+  return name
+    .split(/[-_]/)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
+async function generate() {
+  const root = process.cwd();
+  const latexDir = path.join(root, 'latex');
+  const pagesDir = path.join(root, 'src', 'pages');
+
+  const sections = await fs.readdir(latexDir, { withFileTypes: true });
+  for (const sec of sections.filter(d => d.isDirectory())) {
+    const name = sec.name;
+    const secLatex = path.join(latexDir, name);
+    const secPages = path.join(pagesDir, name);
+
+    await fs.mkdir(secPages, { recursive: true });
+    for (const item of await fs.readdir(secPages)) {
+      if (item !== 'index.astro') rmSync(path.join(secPages, item), { recursive: true, force: true });
+    }
+
+    const topics = await fs.readdir(secLatex, { withFileTypes: true });
+    const indexItems = [];
+    for (const t of topics.filter(d => d.isDirectory())) {
+      const topic = t.name;
+      const topicLatex = path.join(secLatex, topic);
+      const topicPages = path.join(secPages, topic);
+      await fs.mkdir(topicPages, { recursive: true });
+
+      for (const file of await fs.readdir(topicLatex)) {
+        if (!file.endsWith('.tex')) continue;
+        const tex = path.join(topicLatex, file);
+        const out = path.join(topicPages, 'content.html');
+        console.log(`Building ${tex}`);
+        execSync(
+          `pandoc "${tex}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${out}"`,
+          { stdio: 'inherit' }
+        );
+      }
+      const title = humanize(topic);
+      await fs.writeFile(
+        path.join(topicPages, 'index.astro'),
+        `---
+import NoteLayout from '../../../layouts/NoteLayout.astro';
+import content from './content.html?raw';
+
+const title = '${title}';
+const sidebarItems = [];
+---
+
+<NoteLayout title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>
+`
+      );
+      indexItems.push({ title, href: `/${name}/${topic}` });
+    }
+
+    const links = indexItems
+      .map(i => `      <a href="${i.href}" class="topic-card">
+        <h2>${i.title}</h2>
+      </a>`)
+      .join('\n');
+    await fs.writeFile(
+      path.join(secPages, 'index.astro'),
+      `---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="${humanize(name)} Notes">
+  <div class="container">
+    <h1>${humanize(name)} Notes</h1>
+    <div class="topic-grid">
+${links}
+    </div>
+  </div>
+</BaseLayout>
+`
+    );
+  }
+}
+
+generate().catch(e => { console.error(e); process.exit(1); });
+```
+
+Update your `package.json` scripts:
+
 ```jsonc
 {
   "scripts": {
-    "generate-notes": "pandoc latex/AbstractAlgebraNotes.tex -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o src/pages/notes/abstract-algebra/content.html",
+    "generate-notes": "node scripts/generate-notes.js",
     "dev": "npm run generate-notes && astro dev",
-    "build": "npm run generate-notes && astro build",
-    /* other scripts */
+    "build": "npm run generate-notes && astro build"
   }
 }
 ```
+
+This workflow will automatically compile and scaffold all your notes while preserving a clean, static routing structure.
 
 ## 2. Create a wrapper Astro page
 After running `generate-notes`, you’ll have `content.html`. Create `index.astro` alongside it:
