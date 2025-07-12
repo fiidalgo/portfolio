@@ -50,15 +50,7 @@ function Emph(el)
 end
 
 -- This function runs once at the very end of the Pandoc process.
+-- Disable static TOC generation; sidebar is built dynamically in NoteLayout
 function Pandoc(doc)
-  -- Define the output path for the TOC file.
-  local toc_filepath = 'src/pages/notes/abstract-algebra/toc.json'
-  local file = io.open(toc_filepath, 'w')
-  if file then
-    -- Encode the `toc_items` table as a JSON string and write it.
-    file:write(pandoc.json.encode(toc_items))
-    file:close()
-  end
-  -- Return the document to Pandoc to finish processing.
   return doc
 end

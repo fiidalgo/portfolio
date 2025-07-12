@@ -131,7 +131,7 @@ a:hover {
 }
 .sidebar a.active {
   font-weight: bold;
-  color: #0070f3;
+  text-decoration: underline;
 }
 
 .notes-content {
