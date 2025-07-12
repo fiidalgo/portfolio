@@ -4,7 +4,7 @@ This repository contains the source code for Andre Amor's personal website built
 
 ## Project Overview
 - **Home/Resume**: `/src/pages/index.astro` contains details about education, work experience, skills, and social links.
-- **Math Notes**: Pages under `/src/pages/notes/` are generated from LaTeX sources and rendered with `NoteLayout.astro` for KaTeX support and sidebar navigation.
+- **CS & Math Notes**: Pages under `/src/pages/{cs,math}/` are generated from LaTeX sources and rendered with `NoteLayout.astro` for KaTeX support and sidebar navigation.
 
 ## Project Structure
 
@@ -31,10 +31,10 @@ Run the following from the project root:
 | `npm run preview`| Preview the build locally                            |
 | `npm run astro ...` | Run additional Astro CLI commands                |
 
-## Math Notes Workflow
+## Notes Workflow
 
 1. Run `npm install` once to install dependencies.
-2. Place your `.tex` files anywhere inside the `latex/` directory. Folder names map directly to `src/pages/notes/` when compiled.
-3. Run `npm run dev` to build the notes and start the dev server. The script `npm run generate-notes` converts all LaTeX files into HTML fragments and creates the necessary `index.astro` files automatically.
+2. Place your `.tex` files anywhere inside the `latex/cs` or `latex/math` directories. Folder names map directly to `src/pages/{cs,math}/` when compiled.
+3. Run `npm run generate-notes` to convert all LaTeX files into HTML fragments and create the necessary `index.astro` files automatically.
 
-Every build mirrors the directory structure of `latex/` under `src/pages/notes/`. New notes appear on the Math Notes home page without manual edits.
+Every build mirrors the directory structure of `latex/{cs,math}` under `src/pages/{cs,math}/`. New notes appear on their respective home pages without manual edits.

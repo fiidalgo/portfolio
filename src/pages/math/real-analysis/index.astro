@@ -2,10 +2,12 @@
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
+const sectionName = 'math';
+const sectionTitle = 'Math Notes';
 const title = 'Groups';
 const sidebarItems = [];
 ---
 
-<NoteLayout title={title} sidebarItems={sidebarItems}>
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
   <div class="latex-notes" set:html={content} />
 </NoteLayout>

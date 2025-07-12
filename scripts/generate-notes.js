@@ -59,15 +59,20 @@ async function generate() {
 
         // Create or overwrite index.astro for this topic
         const title = humanize(base);
+        const rawSectionTitle = sectionName === 'cs'
+          ? 'Computer Science Notes'
+          : `${capitalize(sectionName)} Notes`;
         const indexAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
+const sectionName = '${sectionName}';
+const sectionTitle = '${rawSectionTitle}';
 const title = '${title}';
 const sidebarItems = [];
 ---
 
-<NoteLayout title={title} sidebarItems={sidebarItems}>
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
@@ -82,13 +87,16 @@ const sidebarItems = [];
         <h2>${item.title}</h2>
       </a>`)
       .join('\n');
+    const sectionTitle = sectionName === 'cs'
+      ? 'Computer Science Notes'
+      : `${capitalize(sectionName)} Notes`;
     const sectionIndex = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="${capitalize(sectionName)} Notes">
+<BaseLayout title="${sectionTitle}">
   <div class="container">
-    <h1>${capitalize(sectionName)} Notes</h1>
+    <h1>${sectionTitle}</h1>
     <div class="topic-grid">
 ${links}
     </div>

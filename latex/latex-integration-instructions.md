@@ -103,11 +103,13 @@ async function generate() {
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
+const sectionName = '${name}';
+const sectionTitle = '${humanize(name)} Notes';
 const title = '${title}';
 const sidebarItems = [];
 ---
 
-<NoteLayout title={title} sidebarItems={sidebarItems}>
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `
@@ -164,6 +166,8 @@ After running `generate-notes`, you’ll have `content.html`. Create `index.astr
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
+const sectionName = 'math'; // or 'cs' for Computer Science Notes
+const sectionTitle = 'Math Notes'; // or 'Computer Science Notes' for CS Notes
 const title = 'My Note Title';
 const sidebarItems = [
   { title: 'Section 1', href: '#section-1' },
@@ -171,7 +175,7 @@ const sidebarItems = [
 ];
 ---
 
-<NoteLayout title={title} sidebarItems={sidebarItems}>
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 ```
