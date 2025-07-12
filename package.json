@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "generate-notes": "node scripts/generate-notes.js",
-    "dev": "npm run generate-notes && astro dev",
-    "build": "npm run generate-notes && astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
