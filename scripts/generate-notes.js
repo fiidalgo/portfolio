@@ -45,24 +45,93 @@ async function generate() {
       const topicPages = path.join(sectionPages, topicName);
       await fs.mkdir(topicPages, { recursive: true });
 
-      // Process each .tex file in the topic folder
-      const files = await fs.readdir(topicLatex);
-      for (const file of files.filter(f => f.endsWith('.tex'))) {
-        const base = path.parse(file).name;
-        const texPath = path.join(topicLatex, file);
-        const outputHtml = path.join(topicPages, 'content.html');
-        console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
-        execSync(
-          `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
-          { stdio: 'inherit' }
-        );
+      // Determine if this topic has subtopics
+      const entries = await fs.readdir(topicLatex, { withFileTypes: true });
+      const subtopics = entries.filter(e => e.isDirectory());
+      if (subtopics.length > 0) {
+        // Generate each subtopic page and topic index
+        const subIndexItems = [];
+        for (const subDir of subtopics) {
+          const subName = subDir.name;
+          const subLatex = path.join(topicLatex, subName);
+          const subPages = path.join(topicPages, subName);
+          await fs.mkdir(subPages, { recursive: true });
 
-        // Create or overwrite index.astro for this topic
-        const title = humanize(base);
-        const rawSectionTitle = sectionName === 'cs'
-          ? 'Computer Science Notes'
-          : `${capitalize(sectionName)} Notes`;
-        const indexAstro = `---
+          const texFiles = await fs.readdir(subLatex);
+          for (const file of texFiles.filter(f => f.endsWith('.tex'))) {
+            const base = path.parse(file).name;
+            const texPath = path.join(subLatex, file);
+            const outputHtml = path.join(subPages, 'content.html');
+            console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+            execSync(
+              `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+              { stdio: 'inherit' }
+            );
+
+            // Create index.astro for this subtopic
+            const title = humanize(base);
+            const rawSectionTitle = sectionName === 'cs'
+              ? 'Computer Science Notes'
+              : `${capitalize(sectionName)} Notes`;
+            const indexAstro = `---
+import NoteLayout from '../../../../layouts/NoteLayout.astro';
+import content from './content.html?raw';
+
+const sectionName = '${sectionName}';
+const sectionTitle = '${rawSectionTitle}';
+const title = '${title}';
+const sidebarItems = [];
+---
+
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>
+`;
+            await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
+          }
+          subIndexItems.push({ title: humanize(subName), href: `/${sectionName}/${topicName}/${subName}` });
+        }
+
+        // Create topic index listing its subtopics
+        const topicTitle = humanize(topicName);
+        const links = subIndexItems
+          .map(item => `      <a href="${item.href}" class="subtopic-card">
+        <h2>${item.title}</h2>
+      </a>`)
+          .join('\n');
+const topicIndex = `---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="${topicTitle}">
+  <div class="container">
+    <h1>${topicTitle}</h1>
+    <div class="subtopic-grid">
+${links}
+    </div>
+  </div>
+</BaseLayout>
+`;
+        await fs.writeFile(path.join(topicPages, 'index.astro'), topicIndex);
+      } else {
+        // No subtopics: process each .tex file in the topic folder
+        const texFiles = entries.filter(e => e.isFile() && e.name.endsWith('.tex')).map(e => e.name);
+        for (const file of texFiles) {
+          const base = path.parse(file).name;
+          const texPath = path.join(topicLatex, file);
+          const outputHtml = path.join(topicPages, 'content.html');
+          console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+          execSync(
+            `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+            { stdio: 'inherit' }
+          );
+
+          // Create or overwrite index.astro for this topic
+          const title = humanize(base);
+          const rawSectionTitle = sectionName === 'cs'
+            ? 'Computer Science Notes'
+            : `${capitalize(sectionName)} Notes`;
+          const indexAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
@@ -76,7 +145,8 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-        await fs.writeFile(path.join(topicPages, 'index.astro'), indexAstro);
+          await fs.writeFile(path.join(topicPages, 'index.astro'), indexAstro);
+        }
       }
       indexItems.push({ title: humanize(topicName), href: `/${sectionName}/${topicName}` });
     }

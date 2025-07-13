@@ -18,9 +18,11 @@ First, mirror your site taxonomy in the `latex/` directory. For example:
 latex/
   math/
     abstract-algebra/
-      introduction.tex
-      groups.tex
-      rings.tex
+      group-theory/
+        subgroups.tex
+        normal-subgroups.tex
+      ring-theory/
+        rings.tex
     real-analysis/
       measure-theory.tex
   cs/
@@ -45,7 +47,8 @@ npm install
 npm run generate-notes
 ```
 
-Below is a minimal example of `scripts/generate-notes.js` (adjust filters, CSS, etc. as needed):
+Below is a minimal example of `scripts/generate-notes.js` (adjust filters, CSS, etc. as needed).  
+__Note on subtopics:__ if any topic folder contains one or more subdirectories, the script will detect them as subtopics. It will then generate an index page listing those subtopics (using a `.subtopic-grid`) and a separate note page for each, rather than treating the topic as a single note.
 
 ```js
 #!/usr/bin/env node

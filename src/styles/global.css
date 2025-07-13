@@ -497,6 +497,35 @@ details[open] summary {
   color: #111;
 }
 
+/* Notes index subtopic cards */
+.subtopic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.subtopic-card {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color: #fafafa;
+  text-align: center;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.subtopic-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.subtopic-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
 /* Breadcrumb navigation */
 .breadcrumbs {
   font-size: 0.9rem;

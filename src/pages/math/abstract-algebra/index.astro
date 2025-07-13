@@ -1,13 +1,14 @@
 ---
-import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './content.html?raw';
-
-const sectionName = 'math';
-const sectionTitle = 'Math Notes';
-const title = 'Groups';
-const sidebarItems = [];
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
-<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
-  <div class="latex-notes" set:html={content} />
-</NoteLayout>
+<BaseLayout title="Abstract Algebra">
+  <div class="container">
+    <h1>Abstract Algebra</h1>
+    <div class="subtopic-grid">
+      <a href="/math/abstract-algebra/group-theory" class="subtopic-card">
+        <h2>Group Theory</h2>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
