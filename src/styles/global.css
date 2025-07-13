@@ -500,7 +500,7 @@ details[open] summary {
 /* Breadcrumb navigation */
 .breadcrumbs {
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  padding-top: 0.3rem;
 }
 
 .breadcrumbs a {
