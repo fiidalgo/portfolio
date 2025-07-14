@@ -500,30 +500,31 @@ details[open] summary {
 /* Notes index subtopic cards */
 .subtopic-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .subtopic-card {
   display: block;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  background-color: #fafafa;
-  text-align: center;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s ease, transform 0.1s ease;
 }
 
 .subtopic-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .subtopic-card h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #333;
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #111;
 }
 
 /* Breadcrumb navigation */
@@ -539,6 +540,11 @@ details[open] summary {
 
 .breadcrumbs a:hover {
   text-decoration: underline;
+}
+
+.breadcrumbs .divider {
+  margin: 0 0.5em;
+  color: #666;
 }
 
 /* 404 Not Found page */

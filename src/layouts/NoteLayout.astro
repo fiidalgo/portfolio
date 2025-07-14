@@ -1,13 +1,19 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
-const { title, sidebarItems = [], sectionName = 'math', sectionTitle = 'Math Notes' } = Astro.props;
+const { title, sidebarItems = [], sectionName = 'math', sectionTitle = 'Math Notes', topicName, topicTitle } = Astro.props;
 ---
 
 <BaseLayout title={title}>
   <nav class="breadcrumbs">
     <a href={`/${sectionName}`}>{sectionTitle}</a>
     <span class="divider">/</span>
+    {topicName && (
+      <>
+        <a href={`/${sectionName}/${topicName}`}>{topicTitle}</a>
+        <span class="divider">/</span>
+      </>
+    )}
     <span aria-current="page">{title}</span>
   </nav>
   <div class="notes-container">

@@ -51,6 +51,7 @@ async function generate() {
       if (subtopics.length > 0) {
         // Generate each subtopic page and topic index
         const subIndexItems = [];
+        const topicTitle = humanize(topicName);
         for (const subDir of subtopics) {
           const subName = subDir.name;
           const subLatex = path.join(topicLatex, subName);
@@ -79,11 +80,13 @@ import content from './content.html?raw';
 
 const sectionName = '${sectionName}';
 const sectionTitle = '${rawSectionTitle}';
+const topicName = '${topicName}';
+const topicTitle = '${topicTitle}';
 const title = '${title}';
 const sidebarItems = [];
 ---
 
-<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} topicName={topicName} topicTitle={topicTitle} title={title} sidebarItems={sidebarItems}>
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
@@ -93,17 +96,24 @@ const sidebarItems = [];
         }
 
         // Create topic index listing its subtopics
-        const topicTitle = humanize(topicName);
         const links = subIndexItems
           .map(item => `      <a href="${item.href}" class="subtopic-card">
         <h2>${item.title}</h2>
       </a>`)
           .join('\n');
-const topicIndex = `---
+        const rawSectionTitle = sectionName === 'cs'
+          ? 'Computer Science Notes'
+          : `${capitalize(sectionName)} Notes`;
+        const topicIndex = `---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="${topicTitle}">
+  <nav class="breadcrumbs">
+    <a href="/${sectionName}">${rawSectionTitle}</a>
+    <span class="divider">/</span>
+    <span aria-current="page">${topicTitle}</span>
+  </nav>
   <div class="container">
     <h1>${topicTitle}</h1>
     <div class="subtopic-grid">

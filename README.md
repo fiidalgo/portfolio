@@ -40,4 +40,7 @@ Run the following from the project root:
    **Optional subtopics:**  
    If a topic directory contains subfolders, each subfolder is treated as a subtopic. The generator will scaffold an index page for each subtopic and render a `.subtopic-grid` on the parent topic’s index. If there are no subfolders, it falls back to the original single-note behavior.
 
+   **Breadcrumbs in subtopics:**  
+   Subtopic index pages now include breadcrumb navigation (Section &rarr; Topic) for better context. Individual subtopic content pages include Section &rarr; Topic &rarr; Subtopic breadcrumbs.
+
 Every build mirrors the directory structure of `latex/{cs,math}` under `src/pages/{cs,math}/`. New notes appear on their respective home pages without manual edits.
