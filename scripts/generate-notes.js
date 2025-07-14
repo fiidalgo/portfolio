@@ -90,16 +90,13 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-            await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
-          }
+          await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
           subIndexItems.push({ title: humanize(subName), href: `/${sectionName}/${topicName}/${subName}` });
         }
 
         // Create topic index listing its subtopics
         const links = subIndexItems
-          .map(item => `      <a href="${item.href}" class="subtopic-card">
-        <h2>${item.title}</h2>
-      </a>`)
+          .map(item => `      <li><a href="${item.href}" class="subtopic-link">${item.title}</a></li>`)
           .join('\n');
         const rawSectionTitle = sectionName === 'cs'
           ? 'Computer Science Notes'
@@ -116,8 +113,10 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   </nav>
   <div class="container">
     <h1>${topicTitle}</h1>
-    <div class="subtopic-grid">
+    <div class="subtopic-list">
+      <ul>
 ${links}
+      </ul>
     </div>
   </div>
 </BaseLayout>

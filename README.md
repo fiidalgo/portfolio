@@ -38,7 +38,7 @@ Run the following from the project root:
 3. Run `npm run generate-notes` to convert all LaTeX files into HTML fragments and create the necessary `index.astro` files automatically.
 
    **Optional subtopics:**  
-   If a topic directory contains subfolders, each subfolder is treated as a subtopic. The generator will scaffold an index page for each subtopic and render a `.subtopic-grid` on the parent topic’s index. If there are no subfolders, it falls back to the original single-note behavior.
+   If a topic directory contains subfolders, each subfolder is treated as a subtopic. The generator will scaffold an index page for each subtopic and render a `.subtopic-list` on the parent topic’s index. If there are no subfolders, it falls back to the original single-note behavior.
 
    **Breadcrumbs in subtopics:**  
    Subtopic index pages now include breadcrumb navigation (Section &rarr; Topic) for better context. Individual subtopic content pages include Section &rarr; Topic &rarr; Subtopic breadcrumbs.

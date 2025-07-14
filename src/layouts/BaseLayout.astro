@@ -40,6 +40,36 @@ import 'katex/dist/katex.min.css';
     </header>
     <main class="container">
       <slot />
-    </main>
+  </main>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const list = document.querySelector('.subtopic-list ul');
+      if (!list) return;
+      for (const link of list.querySelectorAll('li > a.subtopic-link')) {
+        const href = link.getAttribute('href');
+        try {
+          const res = await fetch(`${href}/content.html`);
+          if (!res.ok) continue;
+          const html = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const headers = doc.querySelectorAll('h2[id]');
+          if (headers.length) {
+            const ul = document.createElement('ul');
+            ul.className = 'subtopic-sections';
+            headers.forEach(h2 => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = `${href}#${h2.id}`;
+              a.textContent = h2.textContent;
+              li.appendChild(a);
+              ul.appendChild(li);
+            });
+            link.parentElement.appendChild(ul);
+          }
+        } catch {}
+      }
+    });
+  </script>
   </body>
 </html>

@@ -497,34 +497,52 @@ details[open] summary {
   color: #111;
 }
 
-/* Notes index subtopic cards */
-.subtopic-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+/* Notes index subtopic list (inspired by Paul's Online Math Notes) */
+.subtopic-list {
+  margin-top: 1rem;
 }
 
-.subtopic-card {
-  display: block;
-  padding: 1.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.75rem;
-  background-color: #fff;
-  text-align: left;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
+.subtopic-list ul {
+  list-style: none;
+  columns: auto;
+  column-width: 240px;
+  column-gap: 2rem;
+  padding: 0;
 }
 
-.subtopic-card:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+.subtopic-list li {
+  margin: 0.5rem 0;
 }
 
-.subtopic-card h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.25rem;
-  color: #111;
+.subtopic-list a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted #999;
+  transition: border-bottom-style 0.2s ease;
+}
+
+.subtopic-list a:hover {
+  border-bottom-style: solid;
+}
+
+/* Nested section links under each subtopic */
+.subtopic-list ul ul {
+  list-style: disc outside;
+  margin: 0.25rem 0 0 1.5rem;
+  padding: 0;
+}
+.subtopic-list ul ul li {
+  margin: 0.25rem 0;
+}
+
+/* Styles for dynamically injected subtopic section lists */
+.subtopic-sections {
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+  list-style: disc outside;
+}
+.subtopic-sections li {
+  margin: 0.25rem 0;
 }
 
 /* Breadcrumb navigation */
