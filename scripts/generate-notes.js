@@ -16,6 +16,30 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Utility to get ordered directory entries based on order.json if present
+async function getOrderedDirs(dir, filterFn) {
+  let entries = await fs.readdir(dir, { withFileTypes: true });
+  entries = entries.filter(filterFn);
+  let order = [];
+  try {
+    const orderPath = path.join(dir, 'order.json');
+    const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
+    if (Array.isArray(orderJson.order)) {
+      order = orderJson.order;
+    }
+  } catch (e) {
+    // No order.json or invalid, ignore
+  }
+  if (order.length === 0) return entries;
+  // Map entries by name for fast lookup
+  const entryMap = Object.fromEntries(entries.map(e => [e.name, e]));
+  // Ordered entries from order.json
+  const ordered = order.map(name => entryMap[name]).filter(Boolean);
+  // Remaining entries not in order.json, sorted alphabetically
+  const remaining = entries.filter(e => !order.includes(e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  return [...ordered, ...remaining];
+}
+
 async function generate() {
   const root = process.cwd();
   const latexDir = path.join(root, 'latex');
@@ -36,16 +60,18 @@ async function generate() {
       }
     }
 
-    const topics = await fs.readdir(sectionLatex, { withFileTypes: true });
+    // Use getOrderedDirs for topics
+    const topics = await getOrderedDirs(sectionLatex, d => d.isDirectory());
     const indexItems = [];
 
-    for (const topicDir of topics.filter(d => d.isDirectory())) {
+    for (const topicDir of topics) {
       const topicName = topicDir.name;
       const topicLatex = path.join(sectionLatex, topicName);
       const topicPages = path.join(sectionPages, topicName);
       await fs.mkdir(topicPages, { recursive: true });
 
       // Determine if this topic has subtopics
+      // Use getOrderedDirs for subtopics
       const entries = await fs.readdir(topicLatex, { withFileTypes: true });
       // Copy non-.tex assets (e.g., images) to the public folder for this topic
       const publicTopicDir = path.join(root, 'public', sectionName, topicName);
@@ -56,7 +82,8 @@ async function generate() {
           await fs.copyFile(srcFile, path.join(publicTopicDir, entry.name));
         }
       }
-      const subtopics = entries.filter(e => e.isDirectory());
+      // Use getOrderedDirs for subtopics
+      const subtopics = await getOrderedDirs(topicLatex, e => e.isDirectory());
       if (subtopics.length > 0) {
         // Generate each subtopic page and topic index
         const subIndexItems = [];
