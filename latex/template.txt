@@ -50,12 +50,9 @@
 \chapter{Groups}
 
 \section{Introduction to Groups}
-\begin{center}
-\includegraphics{test.png}
-\end{center}
 
 \begin{definition}
-A \emph{group} is a set $G$ equipped wiasdfth a binary operation $\cdot : G \times G \to G$ satisfying the following properties:
+A \emph{group} is a set $G$ equipped with a binary operation $\cdot : G \times G \to G$ satisfying the following properties:
 \begin{enumerate}[label=(\roman*)]
     \item \emph{Associativity}: For all $a, b, c \in G$, $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
     \item \emph{Identity}: There exists an element $e \in G$ such that for all $a \in G$, $e \cdot a = a \cdot e = a$.

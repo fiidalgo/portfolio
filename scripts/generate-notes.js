@@ -47,6 +47,15 @@ async function generate() {
 
       // Determine if this topic has subtopics
       const entries = await fs.readdir(topicLatex, { withFileTypes: true });
+      // Copy non-.tex assets (e.g., images) to the public folder for this topic
+      const publicTopicDir = path.join(root, 'public', sectionName, topicName);
+      await fs.mkdir(publicTopicDir, { recursive: true });
+      for (const entry of entries) {
+        if (entry.isFile() && !entry.name.endsWith('.tex')) {
+          const srcFile = path.join(topicLatex, entry.name);
+          await fs.copyFile(srcFile, path.join(publicTopicDir, entry.name));
+        }
+      }
       const subtopics = entries.filter(e => e.isDirectory());
       if (subtopics.length > 0) {
         // Generate each subtopic page and topic index
@@ -57,6 +66,14 @@ async function generate() {
           const subLatex = path.join(topicLatex, subName);
           const subPages = path.join(topicPages, subName);
           await fs.mkdir(subPages, { recursive: true });
+
+          const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
+          for (const entry of subEntries) {
+            if (entry.isFile() && !entry.name.endsWith('.tex')) {
+              const srcFile = path.join(subLatex, entry.name);
+              await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
+            }
+          }
 
           const texFiles = await fs.readdir(subLatex);
           for (const file of texFiles.filter(f => f.endsWith('.tex'))) {
@@ -90,6 +107,13 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
+            // Rewrite image URLs in content.html to absolute public paths
+            const htmlPath = outputHtml;
+            let html = await fs.readFile(htmlPath, 'utf-8');
+            html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+              `$1/${sectionName}/${topicName}/${subName}/$2$3`
+            );
+            await fs.writeFile(htmlPath, html);
             await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
             subIndexItems.push({ title: humanize(subName), href: `/${sectionName}/${topicName}/${subName}` });
           }
@@ -135,6 +159,13 @@ ${links}
             `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
             { stdio: 'inherit' }
           );
+          // Rewrite image URLs in content.html to absolute public paths
+          const htmlPath = outputHtml;
+          let html = await fs.readFile(htmlPath, 'utf-8');
+          html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+            `$1/${sectionName}/${topicName}/$2$3`
+          );
+          await fs.writeFile(htmlPath, html);
 
           // Create or overwrite index.astro for this topic
           const title = humanize(base);
