@@ -230,13 +230,27 @@ const sidebarItems = [];
     const sectionTitle = sectionName === 'cs'
       ? 'Computer Science Notes'
       : `${capitalize(sectionName)} Notes`;
+    // Check for description.md in section directory
+    const descriptionMdPath = path.join(sectionLatex, 'description.md');
+    let hasDescription = false;
+    if (await fs.access(descriptionMdPath).then(() => true).catch(() => false)) {
+      hasDescription = true;
+      const descriptionHtmlPath = path.join(sectionPages, 'description.html');
+      console.log(`Generating HTML for ${descriptionMdPath} → ${descriptionHtmlPath}`);
+      execSync(
+        `pandoc "${descriptionMdPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${descriptionHtmlPath}"`,
+        { stdio: 'inherit' }
+      );
+    }
     const sectionIndex = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+${hasDescription ? "import description from './description.html?raw';" : ''}
 ---
 
 <BaseLayout title="${sectionTitle}">
   <div class="container">
     <h1>${sectionTitle}</h1>
+${hasDescription ? '    <div class="section-description" set:html={description} />' : ''}
     <div class="topic-grid">
 ${links}
     </div>
