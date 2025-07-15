@@ -1,13 +1,19 @@
 ---
-import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './content.html?raw';
-
-const sectionName = 'cs';
-const sectionTitle = 'Computer Science Notes';
-const title = 'Test1';
-const sidebarItems = [];
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
-<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
-  <div class="latex-notes" set:html={content} />
-</NoteLayout>
+<BaseLayout title="Algorithms">
+  <nav class="breadcrumbs">
+    <a href="/cs">Computer Science Notes</a>
+    <span class="divider">/</span>
+    <span aria-current="page">Algorithms</span>
+  </nav>
+  <div class="container">
+    <h1>Algorithms</h1>
+    <div class="subtopic-list">
+      <ul>
+      <li><a href="/cs/algorithms/kadane" class="subtopic-link">Kadane</a></li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

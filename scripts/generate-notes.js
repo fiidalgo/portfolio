@@ -90,8 +90,9 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-          await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
-          subIndexItems.push({ title: humanize(subName), href: `/${sectionName}/${topicName}/${subName}` });
+            await fs.writeFile(path.join(subPages, 'index.astro'), indexAstro);
+            subIndexItems.push({ title: humanize(subName), href: `/${sectionName}/${topicName}/${subName}` });
+          }
         }
 
         // Create topic index listing its subtopics
