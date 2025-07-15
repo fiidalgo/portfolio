@@ -68,6 +68,8 @@ async function generate() {
           await fs.mkdir(subPages, { recursive: true });
 
           const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
+          // Ensure public directory for this subtopic exists
+          await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
           for (const entry of subEntries) {
             if (entry.isFile() && !entry.name.endsWith('.tex')) {
               const srcFile = path.join(subLatex, entry.name);

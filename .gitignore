@@ -37,3 +37,5 @@ pnpm-debug.log*
 *.glo
 *.ist
 *.acn
+
+*.pdf

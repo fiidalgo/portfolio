@@ -1,13 +1,20 @@
 ---
-import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './content.html?raw';
-
-const sectionName = 'math';
-const sectionTitle = 'Math Notes';
-const title = 'Groups';
-const sidebarItems = [];
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
-<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} title={title} sidebarItems={sidebarItems}>
-  <div class="latex-notes" set:html={content} />
-</NoteLayout>
+<BaseLayout title="Real Analysis">
+  <nav class="breadcrumbs">
+    <a href="/math">Math Notes</a>
+    <span class="divider">/</span>
+    <span aria-current="page">Real Analysis</span>
+  </nav>
+  <div class="container">
+    <h1>Real Analysis</h1>
+    <div class="subtopic-list">
+      <ul>
+      <li><a href="/math/real-analysis/continuity" class="subtopic-link">Continuity</a></li>
+      <li><a href="/math/real-analysis/sequences" class="subtopic-link">Sequences</a></li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

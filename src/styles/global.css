@@ -504,9 +504,6 @@ details[open] summary {
 
 .subtopic-list ul {
   list-style: none;
-  columns: auto;
-  column-width: 240px;
-  column-gap: 2rem;
   padding: 0;
 }
 
