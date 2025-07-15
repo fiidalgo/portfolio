@@ -5,6 +5,13 @@ import { rmSync } from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
+// Allowed image extensions to copy into public folder
+const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']);
+
+function isImageFile(name) {
+  return IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase());
+}
+
 function humanize(name) {
   return name
     .split(/[-_]/)
@@ -77,7 +84,7 @@ async function generate() {
       const publicTopicDir = path.join(root, 'public', sectionName, topicName);
       await fs.mkdir(publicTopicDir, { recursive: true });
       for (const entry of entries) {
-        if (entry.isFile() && !entry.name.endsWith('.tex')) {
+        if (entry.isFile() && isImageFile(entry.name)) {
           const srcFile = path.join(topicLatex, entry.name);
           await fs.copyFile(srcFile, path.join(publicTopicDir, entry.name));
         }
@@ -98,7 +105,7 @@ async function generate() {
           // Ensure public directory for this subtopic exists
           await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
           for (const entry of subEntries) {
-            if (entry.isFile() && !entry.name.endsWith('.tex')) {
+            if (entry.isFile() && isImageFile(entry.name)) {
               const srcFile = path.join(subLatex, entry.name);
               await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
             }
