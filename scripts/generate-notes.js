@@ -80,7 +80,7 @@ async function generate() {
       // Gather entries in the topic directory
       const entries = await fs.readdir(topicLatex, { withFileTypes: true });
       const texFiles = entries.filter(e => e.isFile() && e.name.endsWith('.tex')).map(e => e.name);
-      const subdirs = entries.filter(e => e.isDirectory());
+      const subdirs = await getOrderedDirs(topicLatex, e => e.isDirectory());
 
       // Copy non-.tex assets (e.g., images) to the public folder for this topic
       const publicTopicDir = path.join(root, 'public', sectionName, topicName);
