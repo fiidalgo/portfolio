@@ -32,6 +32,14 @@ const { title, sidebarItems = [], sectionName = 'math', sectionTitle = 'Math Not
         const text = header ? header.textContent : '';
         return `<li><a href="#${section.id}">${text}</a></li>`;
       }).join('');
+      // Hide sidebar if empty
+      const notesContainer = document.querySelector('.notes-container');
+      const sidebar = document.querySelector('.sidebar');
+      if (!sidebarList.innerHTML.trim()) {
+        notesContainer.classList.add('no-sidebar');
+      } else {
+        notesContainer.classList.remove('no-sidebar');
+      }
       // Highlight active section in sidebar on scroll
       const links = document.querySelectorAll('.sidebar a');
       const observer = new IntersectionObserver((entries) => {

@@ -785,3 +785,11 @@ details[open] summary {
 .math-emphasis {
     font-style: italic;
 }
+
+/* Hide sidebar and expand content when no-sidebar is present */
+.notes-container.no-sidebar {
+  grid-template-columns: 1fr !important;
+}
+.notes-container.no-sidebar .sidebar {
+  display: none !important;
+}
