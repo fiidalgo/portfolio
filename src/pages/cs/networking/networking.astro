@@ -1,0 +1,15 @@
+---
+import NoteLayout from '../../../layouts/NoteLayout.astro';
+import content from './networking.html?raw';
+
+const sectionName = 'cs';
+const sectionTitle = 'Computer Science Notes';
+const topicName = 'networking';
+const topicTitle = 'Networking';
+const title = 'Networking';
+const sidebarItems = [];
+---
+
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} topicName={topicName} topicTitle={topicTitle} title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>
