@@ -47,6 +47,30 @@ async function getOrderedDirs(dir, filterFn) {
   return [...ordered, ...remaining];
 }
 
+// Utility to get ordered file entries based on order.json if present
+async function getOrderedFiles(dir, filterFn) {
+  let entries = await fs.readdir(dir, { withFileTypes: true });
+  entries = entries.filter(filterFn);
+  let order = [];
+  try {
+    const orderPath = path.join(dir, 'order.json');
+    const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
+    if (Array.isArray(orderJson.order)) {
+      order = orderJson.order;
+    }
+  } catch (e) {
+    // No order.json or invalid, ignore
+  }
+  if (order.length === 0) return entries;
+  // Map entries by name for fast lookup
+  const entryMap = Object.fromEntries(entries.map(e => [e.name, e]));
+  // Ordered entries from order.json
+  const ordered = order.map(name => entryMap[name]).filter(Boolean);
+  // Remaining entries not in order.json, sorted alphabetically
+  const remaining = entries.filter(e => !order.includes(e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  return [...ordered, ...remaining];
+}
+
 async function generate() {
   const root = process.cwd();
   const latexDir = path.join(root, 'latex');
@@ -79,7 +103,8 @@ async function generate() {
 
       // Gather entries in the topic directory
       const entries = await fs.readdir(topicLatex, { withFileTypes: true });
-      const texFiles = entries.filter(e => e.isFile() && e.name.endsWith('.tex')).map(e => e.name);
+      const texFileEntries = await getOrderedFiles(topicLatex, e => e.isFile() && e.name.endsWith('.tex'));
+      const texFiles = texFileEntries.map(e => e.name);
       const subdirs = await getOrderedDirs(topicLatex, e => e.isDirectory());
 
       // Copy non-.tex assets (e.g., images) to the public folder for this topic
@@ -135,31 +160,63 @@ const sidebarItems = [];
       }
 
       // CASE 2: Multiple .tex files or subdirectories → subtopic navigation
-      // Gather subtopics: .tex files and subdirectories
-      const subtopicItems = [];
-      // .tex files as subtopics
+      // Get ordered list of all items (both .tex files and subdirectories)
+      let order = [];
+      try {
+        const orderPath = path.join(topicLatex, 'order.json');
+        const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
+        if (Array.isArray(orderJson.order)) {
+          order = orderJson.order;
+        }
+      } catch (e) {
+        // No order.json or invalid, ignore
+      }
+
+      // Create a map of all available items
+      const allItems = new Map();
+      
+      // Add .tex files to the map
       for (const file of texFiles) {
         const base = path.parse(file).name;
-        const texPath = path.join(topicLatex, file);
-        const subPages = topicPages; // Place content.html in topicPages
-        const outputHtml = path.join(subPages, `${base}.html`);
-        console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
-        execSync(
-          `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
-          { stdio: 'inherit' }
-        );
-        // Rewrite image URLs in content.html to absolute public paths
-        let html = await fs.readFile(outputHtml, 'utf-8');
-        html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
-          `$1/${sectionName}/${topicName}/$2$3`
-        );
-        await fs.writeFile(outputHtml, html);
-        // Create index.astro for this subtopic
-        const title = humanize(base);
-        const rawSectionTitle = sectionName === 'cs'
-          ? 'Computer Science Notes'
-          : `${capitalize(sectionName)} Notes`;
-        const subAstro = `---
+        allItems.set(base, { type: 'tex', file, base });
+      }
+      
+      // Add subdirectories to the map
+      for (const subDir of subdirs) {
+        const subName = subDir.name;
+        allItems.set(subName, { type: 'dir', subDir, subName });
+      }
+
+      // Process items in the specified order, then remaining items alphabetically
+      const subtopicItems = [];
+      const processedItems = new Set();
+      
+      // Process items in order.json first
+      for (const itemName of order) {
+        const item = allItems.get(itemName);
+        if (item) {
+          if (item.type === 'tex') {
+            // Process .tex file
+            const { file, base } = item;
+            const texPath = path.join(topicLatex, file);
+            const subPages = topicPages;
+            const outputHtml = path.join(subPages, `${base}.html`);
+            console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+            execSync(
+              `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+              { stdio: 'inherit' }
+            );
+            let html = await fs.readFile(outputHtml, 'utf-8');
+            html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+              `$1/${sectionName}/${topicName}/$2$3`
+            );
+            await fs.writeFile(outputHtml, html);
+            
+            const title = humanize(base);
+            const rawSectionTitle = sectionName === 'cs'
+              ? 'Computer Science Notes'
+              : `${capitalize(sectionName)} Notes`;
+            const subAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './${base}.html?raw';
 
@@ -175,45 +232,46 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-        await fs.writeFile(path.join(subPages, `${base}.astro`), subAstro);
-        subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${base}` });
-      }
-      // Subdirectories as subtopics
-      for (const subDir of subdirs) {
-        const subName = subDir.name;
-        const subLatex = path.join(topicLatex, subName);
-        const subPages = path.join(topicPages, subName);
-        await fs.mkdir(subPages, { recursive: true });
-        // Copy images for subtopic
-        const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
-        await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
-        for (const entry of subEntries) {
-          if (entry.isFile() && isImageFile(entry.name)) {
-            const srcFile = path.join(subLatex, entry.name);
-            await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
-          }
-        }
-        const subTexFiles = subEntries.filter(e => e.isFile() && e.name.endsWith('.tex')).map(e => e.name);
-        for (const file of subTexFiles) {
-          const base = path.parse(file).name;
-          const texPath = path.join(subLatex, file);
-          const outputHtml = path.join(subPages, 'content.html');
-          console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
-          execSync(
-            `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
-            { stdio: 'inherit' }
-          );
-          let html = await fs.readFile(outputHtml, 'utf-8');
-          html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
-            `$1/${sectionName}/${topicName}/${subName}/$2$3`
-          );
-          await fs.writeFile(outputHtml, html);
-          // Create index.astro for this subtopic
-          const title = humanize(base);
-          const rawSectionTitle = sectionName === 'cs'
-            ? 'Computer Science Notes'
-            : `${capitalize(sectionName)} Notes`;
-          const subAstro = `---
+            await fs.writeFile(path.join(subPages, `${base}.astro`), subAstro);
+            subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${base}` });
+          } else if (item.type === 'dir') {
+            // Process subdirectory
+            const { subDir, subName } = item;
+            const subLatex = path.join(topicLatex, subName);
+            const subPages = path.join(topicPages, subName);
+            await fs.mkdir(subPages, { recursive: true });
+            
+            const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
+            await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
+            for (const entry of subEntries) {
+              if (entry.isFile() && isImageFile(entry.name)) {
+                const srcFile = path.join(subLatex, entry.name);
+                await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
+              }
+            }
+            
+            const subTexFileEntries = await getOrderedFiles(subLatex, e => e.isFile() && e.name.endsWith('.tex'));
+            const subTexFiles = subTexFileEntries.map(e => e.name);
+            for (const file of subTexFiles) {
+              const base = path.parse(file).name;
+              const texPath = path.join(subLatex, file);
+              const outputHtml = path.join(subPages, 'content.html');
+              console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+              execSync(
+                `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+                { stdio: 'inherit' }
+              );
+              let html = await fs.readFile(outputHtml, 'utf-8');
+              html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+                `$1/${sectionName}/${topicName}/${subName}/$2$3`
+              );
+              await fs.writeFile(outputHtml, html);
+              
+              const title = humanize(base);
+              const rawSectionTitle = sectionName === 'cs'
+                ? 'Computer Science Notes'
+                : `${capitalize(sectionName)} Notes`;
+              const subAstro = `---
 import NoteLayout from '../../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
@@ -229,8 +287,115 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-          await fs.writeFile(path.join(subPages, 'index.astro'), subAstro);
-          subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${subName}` });
+              await fs.writeFile(path.join(subPages, 'index.astro'), subAstro);
+              subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${subName}` });
+            }
+          }
+          processedItems.add(itemName);
+        }
+      }
+      
+      // Process remaining items alphabetically
+      const remainingItems = Array.from(allItems.entries())
+        .filter(([name]) => !processedItems.has(name))
+        .sort(([a], [b]) => a.localeCompare(b));
+      
+      for (const [itemName, item] of remainingItems) {
+        if (item.type === 'tex') {
+          // Process .tex file
+          const { file, base } = item;
+          const texPath = path.join(topicLatex, file);
+          const subPages = topicPages;
+          const outputHtml = path.join(subPages, `${base}.html`);
+          console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+          execSync(
+            `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+            { stdio: 'inherit' }
+          );
+          let html = await fs.readFile(outputHtml, 'utf-8');
+          html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+            `$1/${sectionName}/${topicName}/$2$3`
+          );
+          await fs.writeFile(outputHtml, html);
+          
+          const title = humanize(base);
+          const rawSectionTitle = sectionName === 'cs'
+            ? 'Computer Science Notes'
+            : `${capitalize(sectionName)} Notes`;
+          const subAstro = `---
+import NoteLayout from '../../../layouts/NoteLayout.astro';
+import content from './${base}.html?raw';
+
+const sectionName = '${sectionName}';
+const sectionTitle = '${rawSectionTitle}';
+const topicName = '${topicName}';
+const topicTitle = '${humanize(topicName)}';
+const title = '${title}';
+const sidebarItems = [];
+---
+
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} topicName={topicName} topicTitle={topicTitle} title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>
+`;
+          await fs.writeFile(path.join(subPages, `${base}.astro`), subAstro);
+          subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${base}` });
+        } else if (item.type === 'dir') {
+          // Process subdirectory
+          const { subDir, subName } = item;
+          const subLatex = path.join(topicLatex, subName);
+          const subPages = path.join(topicPages, subName);
+          await fs.mkdir(subPages, { recursive: true });
+          
+          const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
+          await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
+          for (const entry of subEntries) {
+            if (entry.isFile() && isImageFile(entry.name)) {
+              const srcFile = path.join(subLatex, entry.name);
+              await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
+            }
+          }
+          
+          const subTexFileEntries = await getOrderedFiles(subLatex, e => e.isFile() && e.name.endsWith('.tex'));
+          const subTexFiles = subTexFileEntries.map(e => e.name);
+          for (const file of subTexFiles) {
+            const base = path.parse(file).name;
+            const texPath = path.join(subLatex, file);
+            const outputHtml = path.join(subPages, 'content.html');
+            console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+            execSync(
+              `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+              { stdio: 'inherit' }
+            );
+            let html = await fs.readFile(outputHtml, 'utf-8');
+            html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+              `$1/${sectionName}/${topicName}/${subName}/$2$3`
+            );
+            await fs.writeFile(outputHtml, html);
+            
+            const title = humanize(base);
+            const rawSectionTitle = sectionName === 'cs'
+              ? 'Computer Science Notes'
+              : `${capitalize(sectionName)} Notes`;
+            const subAstro = `---
+import NoteLayout from '../../../../layouts/NoteLayout.astro';
+import content from './content.html?raw';
+
+const sectionName = '${sectionName}';
+const sectionTitle = '${rawSectionTitle}';
+const topicName = '${topicName}';
+const topicTitle = '${humanize(topicName)}';
+const title = '${title}';
+const sidebarItems = [];
+---
+
+<NoteLayout sectionName={sectionName} sectionTitle={sectionTitle} topicName={topicName} topicTitle={topicTitle} title={title} sidebarItems={sidebarItems}>
+  <div class="latex-notes" set:html={content} />
+</NoteLayout>
+`;
+            await fs.writeFile(path.join(subPages, 'index.astro'), subAstro);
+            subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${subName}` });
+          }
         }
       }
       // Create topic index listing its subtopics

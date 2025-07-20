@@ -1,6 +1,6 @@
 {
   "order": [
-    "group-theory",
-    "field-theory"
+    "groups",
+    "fields"
   ]
 }
