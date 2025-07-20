@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "name": "metric-spaces",
+      "compile": true
+    },
+    {
+      "name": "topological-spaces",
+      "compile": true
+    },
+    {
+      "name": "homotopy-theory",
+      "compile": true
+    }
+  ]
+}

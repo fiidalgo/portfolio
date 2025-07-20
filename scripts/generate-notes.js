@@ -23,51 +23,65 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Utility to get ordered directory entries based on order.json if present
+// Utility to get ordered directory entries based on metadata.json if present
 async function getOrderedDirs(dir, filterFn) {
   let entries = await fs.readdir(dir, { withFileTypes: true });
   entries = entries.filter(filterFn);
-  let order = [];
+  let metadata = null;
   try {
-    const orderPath = path.join(dir, 'order.json');
-    const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
-    if (Array.isArray(orderJson.order)) {
-      order = orderJson.order;
+    const metadataPath = path.join(dir, 'metadata.json');
+    const metadataJson = JSON.parse(await fs.readFile(metadataPath, 'utf-8'));
+    if (Array.isArray(metadataJson.items)) {
+      metadata = metadataJson;
     }
   } catch (e) {
-    // No order.json or invalid, ignore
+    // No metadata.json or invalid, ignore
   }
-  if (order.length === 0) return entries;
+  if (!metadata || metadata.items.length === 0) return entries;
+  
   // Map entries by name for fast lookup
   const entryMap = Object.fromEntries(entries.map(e => [e.name, e]));
-  // Ordered entries from order.json
-  const ordered = order.map(name => entryMap[name]).filter(Boolean);
-  // Remaining entries not in order.json, sorted alphabetically
-  const remaining = entries.filter(e => !order.includes(e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  
+  // Filter items to only include those that should be compiled (compile: true or undefined)
+  const compileItems = metadata.items.filter(item => item.compile !== false);
+  
+  // Ordered entries from metadata.json
+  const ordered = compileItems.map(item => entryMap[item.name]).filter(Boolean);
+  
+  // Remaining entries not in metadata.json, sorted alphabetically
+  const remaining = entries.filter(e => !metadata.items.some(item => item.name === e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  
   return [...ordered, ...remaining];
 }
 
-// Utility to get ordered file entries based on order.json if present
+// Utility to get ordered file entries based on metadata.json if present
 async function getOrderedFiles(dir, filterFn) {
   let entries = await fs.readdir(dir, { withFileTypes: true });
   entries = entries.filter(filterFn);
-  let order = [];
+  let metadata = null;
   try {
-    const orderPath = path.join(dir, 'order.json');
-    const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
-    if (Array.isArray(orderJson.order)) {
-      order = orderJson.order;
+    const metadataPath = path.join(dir, 'metadata.json');
+    const metadataJson = JSON.parse(await fs.readFile(metadataPath, 'utf-8'));
+    if (Array.isArray(metadataJson.items)) {
+      metadata = metadataJson;
     }
   } catch (e) {
-    // No order.json or invalid, ignore
+    // No metadata.json or invalid, ignore
   }
-  if (order.length === 0) return entries;
+  if (!metadata || metadata.items.length === 0) return entries;
+  
   // Map entries by name for fast lookup
   const entryMap = Object.fromEntries(entries.map(e => [e.name, e]));
-  // Ordered entries from order.json
-  const ordered = order.map(name => entryMap[name]).filter(Boolean);
-  // Remaining entries not in order.json, sorted alphabetically
-  const remaining = entries.filter(e => !order.includes(e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  
+  // Filter items to only include those that should be compiled (compile: true or undefined)
+  const compileItems = metadata.items.filter(item => item.compile !== false);
+  
+  // Ordered entries from metadata.json
+  const ordered = compileItems.map(item => entryMap[item.name]).filter(Boolean);
+  
+  // Remaining entries not in metadata.json, sorted alphabetically
+  const remaining = entries.filter(e => !metadata.items.some(item => item.name === e.name)).sort((a, b) => a.name.localeCompare(b.name));
+  
   return [...ordered, ...remaining];
 }
 
@@ -161,15 +175,15 @@ const sidebarItems = [];
 
       // CASE 2: Multiple .tex files or subdirectories → subtopic navigation
       // Get ordered list of all items (both .tex files and subdirectories)
-      let order = [];
+      let metadata = null;
       try {
-        const orderPath = path.join(topicLatex, 'order.json');
-        const orderJson = JSON.parse(await fs.readFile(orderPath, 'utf-8'));
-        if (Array.isArray(orderJson.order)) {
-          order = orderJson.order;
+        const metadataPath = path.join(topicLatex, 'metadata.json');
+        const metadataJson = JSON.parse(await fs.readFile(metadataPath, 'utf-8'));
+        if (Array.isArray(metadataJson.items)) {
+          metadata = metadataJson;
         }
       } catch (e) {
-        // No order.json or invalid, ignore
+        // No metadata.json or invalid, ignore
       }
 
       // Create a map of all available items
@@ -191,32 +205,35 @@ const sidebarItems = [];
       const subtopicItems = [];
       const processedItems = new Set();
       
-      // Process items in order.json first
-      for (const itemName of order) {
-        const item = allItems.get(itemName);
-        if (item) {
-          if (item.type === 'tex') {
-            // Process .tex file
-            const { file, base } = item;
-            const texPath = path.join(topicLatex, file);
-            const subPages = topicPages;
-            const outputHtml = path.join(subPages, `${base}.html`);
-            console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
-            execSync(
-              `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
-              { stdio: 'inherit' }
-            );
-            let html = await fs.readFile(outputHtml, 'utf-8');
-            html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
-              `$1/${sectionName}/${topicName}/$2$3`
-            );
-            await fs.writeFile(outputHtml, html);
-            
-            const title = humanize(base);
-            const rawSectionTitle = sectionName === 'cs'
-              ? 'Computer Science Notes'
-              : `${capitalize(sectionName)} Notes`;
-            const subAstro = `---
+      // Process items in metadata.json first (only those that should be compiled)
+      if (metadata && metadata.items.length > 0) {
+        const compileItems = metadata.items.filter(item => item.compile !== false);
+        for (const metadataItem of compileItems) {
+          const itemName = metadataItem.name;
+          const allItem = allItems.get(itemName);
+          if (allItem) {
+            if (allItem.type === 'tex') {
+              // Process .tex file
+              const { file, base } = allItem;
+              const texPath = path.join(topicLatex, file);
+              const subPages = topicPages;
+              const outputHtml = path.join(subPages, `${base}.html`);
+              console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+              execSync(
+                `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+                { stdio: 'inherit' }
+              );
+              let html = await fs.readFile(outputHtml, 'utf-8');
+              html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+                `$1/${sectionName}/${topicName}/$2$3`
+              );
+              await fs.writeFile(outputHtml, html);
+              
+              const title = humanize(base);
+              const rawSectionTitle = sectionName === 'cs'
+                ? 'Computer Science Notes'
+                : `${capitalize(sectionName)} Notes`;
+              const subAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
 import content from './${base}.html?raw';
 
@@ -232,46 +249,46 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-            await fs.writeFile(path.join(subPages, `${base}.astro`), subAstro);
-            subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${base}` });
-          } else if (item.type === 'dir') {
-            // Process subdirectory
-            const { subDir, subName } = item;
-            const subLatex = path.join(topicLatex, subName);
-            const subPages = path.join(topicPages, subName);
-            await fs.mkdir(subPages, { recursive: true });
-            
-            const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
-            await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
-            for (const entry of subEntries) {
-              if (entry.isFile() && isImageFile(entry.name)) {
-                const srcFile = path.join(subLatex, entry.name);
-                await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
-              }
-            }
-            
-            const subTexFileEntries = await getOrderedFiles(subLatex, e => e.isFile() && e.name.endsWith('.tex'));
-            const subTexFiles = subTexFileEntries.map(e => e.name);
-            for (const file of subTexFiles) {
-              const base = path.parse(file).name;
-              const texPath = path.join(subLatex, file);
-              const outputHtml = path.join(subPages, 'content.html');
-              console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
-              execSync(
-                `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
-                { stdio: 'inherit' }
-              );
-              let html = await fs.readFile(outputHtml, 'utf-8');
-              html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
-                `$1/${sectionName}/${topicName}/${subName}/$2$3`
-              );
-              await fs.writeFile(outputHtml, html);
+              await fs.writeFile(path.join(subPages, `${base}.astro`), subAstro);
+              subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${base}` });
+            } else if (allItem.type === 'dir') {
+              // Process subdirectory
+              const { subDir, subName } = allItem;
+              const subLatex = path.join(topicLatex, subName);
+              const subPages = path.join(topicPages, subName);
+              await fs.mkdir(subPages, { recursive: true });
               
-              const title = humanize(base);
-              const rawSectionTitle = sectionName === 'cs'
-                ? 'Computer Science Notes'
-                : `${capitalize(sectionName)} Notes`;
-              const subAstro = `---
+              const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
+              await fs.mkdir(path.join(publicTopicDir, subName), { recursive: true });
+              for (const entry of subEntries) {
+                if (entry.isFile() && isImageFile(entry.name)) {
+                  const srcFile = path.join(subLatex, entry.name);
+                  await fs.copyFile(srcFile, path.join(publicTopicDir, subName, entry.name));
+                }
+              }
+              
+              const subTexFileEntries = await getOrderedFiles(subLatex, e => e.isFile() && e.name.endsWith('.tex'));
+              const subTexFiles = subTexFileEntries.map(e => e.name);
+              for (const file of subTexFiles) {
+                const base = path.parse(file).name;
+                const texPath = path.join(subLatex, file);
+                const outputHtml = path.join(subPages, 'content.html');
+                console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
+                execSync(
+                  `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
+                  { stdio: 'inherit' }
+                );
+                let html = await fs.readFile(outputHtml, 'utf-8');
+                html = html.replace(/(<img[^>]*src=")(?!\/)([^"]+)(")/g,
+                  `$1/${sectionName}/${topicName}/${subName}/$2$3`
+                );
+                await fs.writeFile(outputHtml, html);
+                
+                const title = humanize(base);
+                const rawSectionTitle = sectionName === 'cs'
+                  ? 'Computer Science Notes'
+                  : `${capitalize(sectionName)} Notes`;
+                const subAstro = `---
 import NoteLayout from '../../../../layouts/NoteLayout.astro';
 import content from './content.html?raw';
 
@@ -287,16 +304,17 @@ const sidebarItems = [];
   <div class="latex-notes" set:html={content} />
 </NoteLayout>
 `;
-              await fs.writeFile(path.join(subPages, 'index.astro'), subAstro);
-              subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${subName}` });
+                await fs.writeFile(path.join(subPages, 'index.astro'), subAstro);
+                subtopicItems.push({ title, href: `/${sectionName}/${topicName}/${subName}` });
+              }
             }
+            processedItems.add(itemName);
           }
-          processedItems.add(itemName);
         }
       }
       
-      // Process remaining items alphabetically
-      const remainingItems = Array.from(allItems.entries())
+      // Process remaining items alphabetically (only if no metadata.json exists)
+      const remainingItems = metadata ? [] : Array.from(allItems.entries())
         .filter(([name]) => !processedItems.has(name))
         .sort(([a], [b]) => a.localeCompare(b));
       
@@ -398,14 +416,16 @@ const sidebarItems = [];
           }
         }
       }
-      // Create topic index listing its subtopics
-      const links = subtopicItems
-        .map(item => `      <li><a href="${item.href}" class="subtopic-link">${item.title}</a></li>`)
-        .join('\n');
-      const rawSectionTitle = sectionName === 'cs'
-        ? 'Computer Science Notes'
-        : `${capitalize(sectionName)} Notes`;
-      const topicIndex = `---
+      // Only create topic index and add to section if there are subtopics to show
+      if (subtopicItems.length > 0) {
+        // Create topic index listing its subtopics
+        const links = subtopicItems
+          .map(item => `      <li><a href="${item.href}" class="subtopic-link">${item.title}</a></li>`)
+          .join('\n');
+        const rawSectionTitle = sectionName === 'cs'
+          ? 'Computer Science Notes'
+          : `${capitalize(sectionName)} Notes`;
+        const topicIndex = `---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
@@ -425,8 +445,9 @@ ${links}
   </div>
 </BaseLayout>
 `;
-      await fs.writeFile(path.join(topicPages, 'index.astro'), topicIndex);
-      indexItems.push({ title: humanize(topicName), href: `/${sectionName}/${topicName}` });
+        await fs.writeFile(path.join(topicPages, 'index.astro'), topicIndex);
+        indexItems.push({ title: humanize(topicName), href: `/${sectionName}/${topicName}` });
+      }
     }
 
     // Generate section index.astro
