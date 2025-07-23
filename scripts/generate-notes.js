@@ -89,12 +89,16 @@ async function generate() {
   const root = process.cwd();
   const latexDir = path.join(root, 'latex');
   const pagesDir = path.join(root, 'src', 'pages');
+  // Output generated HTML into src/content to avoid route collisions under pages
+  const contentDirRoot = path.join(root, 'src', 'content');
 
   const sections = await fs.readdir(latexDir, { withFileTypes: true });
   for (const section of sections.filter(d => d.isDirectory())) {
     const sectionName = section.name;
     const sectionLatex = path.join(latexDir, sectionName);
     const sectionPages = path.join(pagesDir, sectionName);
+    const sectionContentDir = path.join(contentDirRoot, sectionName);
+    await fs.mkdir(sectionContentDir, { recursive: true });
 
     // Clean existing topic folders, keep only index.astro
     await fs.mkdir(sectionPages, { recursive: true });
@@ -113,6 +117,8 @@ async function generate() {
       const topicName = topicDir.name;
       const topicLatex = path.join(sectionLatex, topicName);
       const topicPages = path.join(sectionPages, topicName);
+      const topicContentDir = path.join(sectionContentDir, topicName);
+      await fs.mkdir(topicContentDir, { recursive: true });
       await fs.mkdir(topicPages, { recursive: true });
 
       // Gather entries in the topic directory
@@ -136,7 +142,7 @@ async function generate() {
         const file = texFiles[0];
         const base = path.parse(file).name;
         const texPath = path.join(topicLatex, file);
-        const outputHtml = path.join(topicPages, 'content.html');
+        const outputHtml = path.join(topicContentDir, 'content.html');
         console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
         execSync(
           `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
@@ -156,7 +162,7 @@ async function generate() {
           : `${capitalize(sectionName)} Notes`;
         const indexAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './content.html?raw';
+import content from '../../../content/${sectionName}/${topicName}/content.html?raw';
 
 const sectionName = '${sectionName}';
 const sectionTitle = '${rawSectionTitle}';
@@ -217,7 +223,7 @@ const sidebarItems = [];
               const { file, base } = allItem;
               const texPath = path.join(topicLatex, file);
               const subPages = topicPages;
-              const outputHtml = path.join(subPages, `${base}.html`);
+              const outputHtml = path.join(topicContentDir, `${base}.html`);
               console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
               execSync(
                 `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
@@ -233,9 +239,9 @@ const sidebarItems = [];
               const rawSectionTitle = sectionName === 'cs'
                 ? 'Computer Science Notes'
                 : `${capitalize(sectionName)} Notes`;
-              const subAstro = `---
+            const subAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './${base}.html?raw';
+import content from '../../../content/${sectionName}/${topicName}/${base}.html?raw';
 
 const sectionName = '${sectionName}';
 const sectionTitle = '${rawSectionTitle}';
@@ -256,6 +262,9 @@ const sidebarItems = [];
               const { subDir, subName } = allItem;
               const subLatex = path.join(topicLatex, subName);
               const subPages = path.join(topicPages, subName);
+              // Prepare corresponding content directory to avoid html pages under src/pages
+              const subContentDir = path.join(topicContentDir, subName);
+              await fs.mkdir(subContentDir, { recursive: true });
               await fs.mkdir(subPages, { recursive: true });
               
               const subEntries = await fs.readdir(subLatex, { withFileTypes: true });
@@ -272,7 +281,7 @@ const sidebarItems = [];
               for (const file of subTexFiles) {
                 const base = path.parse(file).name;
                 const texPath = path.join(subLatex, file);
-                const outputHtml = path.join(subPages, 'content.html');
+                const outputHtml = path.join(subContentDir, 'content.html');
                 console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
                 execSync(
                   `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
@@ -290,7 +299,7 @@ const sidebarItems = [];
                   : `${capitalize(sectionName)} Notes`;
                 const subAstro = `---
 import NoteLayout from '../../../../layouts/NoteLayout.astro';
-import content from './content.html?raw';
+import content from '../../../../content/${sectionName}/${topicName}/${subName}/content.html?raw';
 
 const sectionName = '${sectionName}';
 const sectionTitle = '${rawSectionTitle}';
@@ -324,7 +333,7 @@ const sidebarItems = [];
           const { file, base } = item;
           const texPath = path.join(topicLatex, file);
           const subPages = topicPages;
-          const outputHtml = path.join(subPages, `${base}.html`);
+          const outputHtml = path.join(topicContentDir, `${base}.html`);
           console.log(`Generating HTML for ${texPath} → ${outputHtml}`);
           execSync(
             `pandoc "${texPath}" -s --katex --section-divs --lua-filter=latex/filter.lua --css=style.css -o "${outputHtml}"`,
@@ -340,9 +349,9 @@ const sidebarItems = [];
           const rawSectionTitle = sectionName === 'cs'
             ? 'Computer Science Notes'
             : `${capitalize(sectionName)} Notes`;
-          const subAstro = `---
+        const subAstro = `---
 import NoteLayout from '../../../layouts/NoteLayout.astro';
-import content from './${base}.html?raw';
+import content from '../../../content/${sectionName}/${topicName}/${base}.html?raw';
 
 const sectionName = '${sectionName}';
 const sectionTitle = '${rawSectionTitle}';

@@ -48,6 +48,8 @@ npm run generate-notes
 ```
 
 Below is a minimal example of `scripts/generate-notes.js` (adjust filters, CSS, etc. as needed).  
+
+__Note__: This script outputs the generated HTML fragments into `src/content/<section>/<topic>` rather than under `src/pages`, so that only `.astro` files define routes and you can safely import the HTML via `?raw` without route collisions.
 __Note on subtopics:__ if any topic folder contains one or more subdirectories, the script will detect them as subtopics. It will then generate an index page listing those subtopics (using a `.subtopic-grid`) and a separate note page for each, rather than treating the topic as a single note.
 
 __Note on images:__ the script now copies any non-.tex assets (e.g., images included via `\includegraphics`) into `public/<section>/<topic>/…`, and rewrites image URLs to use absolute paths (e.g. `/cs/machine-learning/test.png`), so that images are served correctly by Astro.
