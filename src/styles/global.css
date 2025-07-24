@@ -237,6 +237,67 @@ details[open] summary {
   }
 }
 
+/* Project section */
+.project-item {
+  border-bottom: 1px solid var(--shadow);
+  padding-bottom: 0.5rem;
+}
+
+.project-header {
+  margin-bottom: 0.5rem;
+}
+
+.project-item .heading-text {
+  /* No grid layout needed for projects since no logo */
+}
+
+.project-item .company-name-date {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-item .company-name-date h3 {
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.project-item ul {
+  margin: 0;
+  padding-inline-start: 1.5rem;
+}
+
+/* Publication styling */
+.publication {
+  font-size: 0.9rem;
+  color: #666;
+  opacity: 0.8;
+  margin-top: 0.75rem;
+}
+
+/* Publication in experience items needs to span both grid columns */
+.experience-item .publication {
+  grid-column: 1 / -1;
+}
+
+.publication strong {
+  color: #333;
+  opacity: 1;
+}
+
+.publication em {
+  font-style: italic;
+}
+
+.publication a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.publication a:hover {
+  text-decoration: underline;
+}
+
 /* Role and date on second line */
 .role-date {
   display: flex;
